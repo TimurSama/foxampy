@@ -1,0 +1,239 @@
+export type Language = 'en' | 'ru';
+
+export interface Translations {
+  header: {
+    search: string;
+    searchPlaceholder: string;
+  };
+  gallery: {
+    tagline: string;
+    title: string;
+    apps: {
+      accent: string;
+      title: string;
+      description: string;
+    };
+    fashion: {
+      accent: string;
+      title: string;
+      description: string;
+    };
+    architecture: {
+      accent: string;
+      title: string;
+      description: string;
+    };
+    video: {
+      title: string;
+    };
+    research: {
+      accent: string;
+      title: string;
+      description: string;
+    };
+  };
+  cases: {
+    web3Bank: {
+      title: string;
+      category: string;
+      description: string;
+      solution: string;
+      visuals: string;
+    };
+    mailServices: {
+      title: string;
+      category: string;
+      description: string;
+      solution: string;
+      visuals: string;
+    };
+    parametricArchitecture: {
+      title: string;
+      category: string;
+      description: string;
+      solution: string;
+      visuals: string;
+    };
+    rd: {
+      iot: {
+        title: string;
+        category: string;
+        description: string;
+      };
+      quantum: {
+        title: string;
+        category: string;
+        description: string;
+      };
+      water: {
+        title: string;
+        category: string;
+        description: string;
+      };
+    };
+  };
+  contact: {
+    consultation: {
+      confirm: string;
+    };
+  };
+}
+
+export const translations: Record<Language, Translations> = {
+  en: {
+    header: {
+      search: 'Search',
+      searchPlaceholder: 'search...',
+    },
+    gallery: {
+      tagline: 'PORTFOLIO',
+      title: 'GALLERY',
+      apps: {
+        accent: 'Digital Products',
+        title: 'Apps & Platforms',
+        description: 'Development of web and mobile applications, blockchain solutions and complex IT ecosystems for business',
+      },
+      fashion: {
+        accent: 'Parametric Design',
+        title: 'Fashion & Wearables',
+        description: 'Parametric fashion design and conceptual clothing created using algorithmic modeling methods',
+      },
+      architecture: {
+        accent: 'Spatial Design',
+        title: 'Architecture',
+        description: 'Parametric architecture and interior design projects using computational design methods',
+      },
+      video: {
+        title: 'Video & CGI',
+      },
+      research: {
+        accent: 'Innovation Lab',
+        title: 'R&D Projects',
+        description: 'Research initiatives in frontier technologies: IoT, quantum computing, and sustainable development',
+      },
+    },
+    cases: {
+      web3Bank: {
+        title: 'Web3 Banking Platform',
+        category: 'Blockchain / FinTech',
+        description: 'Development of a decentralized banking platform with cryptocurrency integration, smart contracts for automated lending, and a multi-signature security system. The platform includes a mobile application and web interface with real-time transaction processing.',
+        solution: 'We created a comprehensive ecosystem consisting of smart contracts on Ethereum, a Layer 2 solution for fast and cheap transactions, and an intuitive interface for managing digital assets. Integration with traditional banking APIs ensures seamless fiat-crypto exchange.',
+        visuals: 'Visual concept reflects the aesthetics of digital minimalism: clean geometric shapes, liquid animations, and a dark interface with neon accents. The design emphasizes transparency and security of blockchain operations.',
+      },
+      mailServices: {
+        title: 'Smart Mail Logistics',
+        category: 'Logistics / Automation',
+        description: 'Automation system for mail processing and logistics optimization using computer vision and machine learning. The system includes automatic sorting, route optimization, and real-time delivery tracking.',
+        solution: 'Implemented a neural network for recognizing handwritten and printed addresses with 99.2% accuracy. Developed an algorithm for optimal route planning that reduced delivery time by 35%. Created a mobile application for couriers with AR navigation.',
+        visuals: 'Interface design based on the metaphor of digital streams: smooth data flows, dynamic maps with animated routes, minimalist cards for tracking packages. The color palette combines corporate blue with energetic orange accents.',
+      },
+      parametricArchitecture: {
+        title: 'Parametric Pavilion',
+        category: 'Architecture / Design',
+        description: 'Design of a temporary exhibition pavilion using parametric modeling and digital fabrication. The structure consists of 1200 unique plywood elements connected by a system of nodal joints.',
+        solution: 'Developed a parametric model that automatically generates structural elements based on given constraints: span length, load, and material. Optimized the geometry for minimal waste during cutting. Created detailed instructions for assembly without specialized equipment.',
+        visuals: 'Architectural concept combines organic forms with structural expressiveness: flowing lines reminiscent of natural growth patterns, honest demonstration of structural forces through variable section elements, play of light and shadow through perforations.',
+      },
+      rd: {
+        iot: {
+          title: 'IoT Ecosystem',
+          category: 'Internet of Things',
+          description: 'Development of a unified platform for connecting and managing IoT devices in smart city infrastructure',
+        },
+        quantum: {
+          title: 'Quantum Research',
+          category: 'Quantum Computing',
+          description: 'Research in quantum algorithms for optimization problems and cryptographic protocols',
+        },
+        water: {
+          title: 'Water Tokenization',
+          category: 'Sustainability / Blockchain',
+          description: 'Blockchain platform for accounting and trading water resources with IoT sensors integration',
+        },
+      },
+    },
+    contact: {
+      consultation: {
+        confirm: 'Send Request',
+      },
+    },
+  },
+  ru: {
+    header: {
+      search: 'Поиск',
+      searchPlaceholder: 'поиск...',
+    },
+    gallery: {
+      tagline: 'ПОРТФОЛИО',
+      title: 'ГАЛЕРЕЯ',
+      apps: {
+        accent: 'Цифровые продукты',
+        title: 'Приложения и платформы',
+        description: 'Разработка веб и мобильных приложений, блокчейн-решений и сложных IT-экосистем для бизнеса',
+      },
+      fashion: {
+        accent: 'Параметрический дизайн',
+        title: 'Мода и носимые устройства',
+        description: 'Параметрический дизайн одежды и концептуальные наряды, созданные методами алгоритмического моделирования',
+      },
+      architecture: {
+        accent: 'Пространственный дизайн',
+        title: 'Архитектура',
+        description: 'Проекты параметрической архитектуры и дизайна интерьеров с использованием методов вычислительного дизайна',
+      },
+      video: {
+        title: 'Видео и CGI',
+      },
+      research: {
+        accent: 'Лаборатория инноваций',
+        title: 'R&D проекты',
+        description: 'Исследовательские инициативы в передовых технологиях: IoT, квантовые вычисления и устойчивое развитие',
+      },
+    },
+    cases: {
+      web3Bank: {
+        title: 'Web3 Банковская платформа',
+        category: 'Блокчейн / Финтех',
+        description: 'Разработка децентрализованной банковской платформы с интеграцией криптовалют, смарт-контрактами для автоматизированного кредитования и системой мультиподписной безопасности. Платформа включает мобильное приложение и веб-интерфейс с обработкой транзакций в реальном времени.',
+        solution: 'Создали комплексную экосистему, состоящую из смарт-контрактов на Ethereum, решения Layer 2 для быстрых и дешевых транзакций, и интуитивного интерфейса для управления цифровыми активами. Интеграция с традиционными банковскими API обеспечивает бесшовный обмен фиат-крипто.',
+        visuals: 'Визуальная концепция отражает эстетику цифрового минимализма: чистые геометрические формы, жидкие анимации, темный интерфейс с неоновыми акцентами. Дизайн подчеркивает прозрачность и безопасность блокчейн-операций.',
+      },
+      mailServices: {
+        title: 'Умная почтовая логистика',
+        category: 'Логистика / Автоматизация',
+        description: 'Система автоматизации обработки почты и оптимизации логистики с использованием компьютерного зрения и машинного обучения. Система включает автоматическую сортировку, оптимизацию маршрутов и отслеживание доставки в реальном времени.',
+        solution: 'Внедрили нейросеть для распознавания рукописных и печатных адресов с точностью 99.2%. Разработали алгоритм оптимального планирования маршрутов, сокративший время доставки на 35%. Создали мобильное приложение для курьеров с AR-навигацией.',
+        visuals: 'Дизайн интерфейса построен на метафоре цифровых потоков: плавные потоки данных, динамические карты с анимированными маршрутами, минималистичные карточки для отслеживания посылок. Цветовая палитра сочетает корпоративный синий с энергичными оранжевыми акцентами.',
+      },
+      parametricArchitecture: {
+        title: 'Параметрический павильон',
+        category: 'Архитектура / Дизайн',
+        description: 'Проект временного выставочного павильона с использованием параметрического моделирования и цифрового производства. Конструкция состоит из 1200 уникальных элементов из фанеры, соединенных системой узловых соединений.',
+        solution: 'Разработали параметрическую модель, автоматически генерирующую конструктивные элементы на основе заданных ограничений: пролет, нагрузка, материал. Оптимизировали геометрию для минимальных отходов при раскрое. Создали детальные инструкции для сборки без специализированного оборудования.',
+        visuals: 'Архитектурная концепция сочетает органические формы с конструктивной выразительностью: плавные линии, напоминающие природные паттерны роста, честная демонстрация силовых воздействий через элементы переменного сечения, игра света и тени через перфорации.',
+      },
+      rd: {
+        iot: {
+          title: 'IoT Экосистема',
+          category: 'Интернет вещей',
+          description: 'Разработка единой платформы для подключения и управления IoT-устройствами в инфраструктуре умного города',
+        },
+        quantum: {
+          title: 'Квантовые исследования',
+          category: 'Квантовые вычисления',
+          description: 'Исследования в области квантовых алгоритмов для задач оптимизации и криптографических протоколов',
+        },
+        water: {
+          title: 'Токенизация воды',
+          category: 'Устойчивое развитие / Блокчейн',
+          description: 'Блокчейн-платформа для учета и торговли водными ресурсами с интеграцией IoT-датчиков',
+        },
+      },
+    },
+    contact: {
+      consultation: {
+        confirm: 'Отправить заявку',
+      },
+    },
+  },
+};

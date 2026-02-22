@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Ink spectrum - deep blacks */
+  --ink-deep: #030303;
+  --ink-oil: #0a0a0a;
+  --ink-chrome: #121215;
+
+  /* Stone spectrum - grays */
+  --stone-matte: #1a1a1c;
+  --stone-anthracite: #2a2a2e;
+  --stone-graphite: #3a3a40;
+
+  /* Engrave spectrum - whites */
+  --engrave-line: #e8e8e8;
+  --engrave-fresco: #f5f5f5;
+
+  /* Dimensions */
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--ink-deep);
+  color: var(--engrave-fresco);
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* Selection */
+::selection {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--engrave-fresco);
+}
+
+/* Scrollbar - invisible but functional */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--stone-graphite);
+  border-radius: 1px;
+}
+
+/* ========== EFFECTS ========== */
+
+/* Noise overlay */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Scanlines */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: repeating-linear-gradient(0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px);
+}
+
+/* Vignette */
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9997;
+  background: radial-gradient(ellipse at center,
+      transparent 0%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.4) 100%);
+}
+
+/* Oil/Chrome shimmer effect */
+.oil-shimmer {
+  background: linear-gradient(135deg,
+      var(--ink-deep) 0%,
+      var(--ink-oil) 25%,
+      var(--ink-chrome) 50%,
+      var(--ink-oil) 75%,
+      var(--ink-deep) 100%);
+  background-size: 400% 400%;
+  animation: shimmer 15s ease infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Glow effect for borders */
+.glow-border {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 0 20px rgba(255, 255, 255, 0.02),
+    inset 0 0 20px rgba(255, 255, 255, 0.01);
+}
+
+.glow-border-hover:hover {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.15),
+    0 0 30px rgba(255, 255, 255, 0.05),
+    inset 0 0 30px rgba(255, 255, 255, 0.02);
+}
+
+/* Engraved text effect */
+.text-engraved {
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.1),
+    0 -1px 0 rgba(0, 0, 0, 0.8);
+}
+
+/* Chrome text */
+.text-chrome {
+  background: linear-gradient(180deg,
+      var(--engrave-fresco) 0%,
+      var(--stone-graphite) 50%,
+      var(--engrave-line) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Corner brackets decoration */
+.corner-brackets {
+  position: relative;
+}
+
+.corner-brackets::before,
+.corner-brackets::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--stone-graphite);
+  border-style: solid;
+  border-width: 0;
+  transition: all 0.3s ease;
+}
+
+.corner-brackets::before {
+  top: 0;
+  left: 0;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+
+.corner-brackets::after {
+  bottom: 0;
+  right: 0;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+}
+
+.corner-brackets:hover::before,
+.corner-brackets:hover::after {
+  border-color: var(--engrave-line);
+  width: 16px;
+  height: 16px;
+}
+
+/* Hexagon clip path */
+.clip-hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+/* Hover glow effect */
+.hover-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+/* ========== UTILITIES ========== */
+
+.text-dim {
+  color: var(--stone-graphite);
+}
+
+.text-muted {
+  color: var(--stone-anthracite);
+}
+
+.border-subtle {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.bg-glass {
+  background: rgba(10, 10, 10, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.bg-glass-matte {
+  background: rgba(5, 5, 5, 0.15);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Touch-friendly */
+@media (pointer: coarse) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Safe areas for mobile */
+.safe-top {
+  padding-top: max(1rem, var(--safe-top));
+}
+
+.safe-bottom {
+  padding-bottom: max(1rem, var(--safe-bottom));
+}
