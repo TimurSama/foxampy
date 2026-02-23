@@ -15,6 +15,7 @@ import {
 import Header from '@/components/layout/Header';
 import AboutSection from '@/components/sections/AboutSection';
 import ProcessRoadmap from '@/components/sections/ProcessRoadmap';
+import { ProjectsGrid } from '@/components/sections/ProjectCards';
 import { useI18n } from '@/lib/i18n/context';
 import { useState, useEffect } from 'react';
 
@@ -134,33 +135,6 @@ export default function GalleryPage() {
 
   const gallerySections = [
     {
-      id: 'apps',
-      title: t('gallery.apps.title'),
-      accent: t('gallery.apps.accent'),
-      icon: <Layers size={18} />,
-      description: t('gallery.apps.description'),
-      projects: [
-        {
-          id: 'web3-bank',
-          title: t('cases.web3Bank.title'),
-          category: t('cases.web3Bank.category'),
-          description: t('cases.web3Bank.description'),
-          solution: t('cases.web3Bank.solution'),
-          visuals: t('cases.web3Bank.visuals'),
-          icon: <Monitor size={20} />
-        },
-        {
-          id: 'mail-services',
-          title: t('cases.mailServices.title'),
-          category: t('cases.mailServices.category'),
-          description: t('cases.mailServices.description'),
-          solution: t('cases.mailServices.solution'),
-          visuals: t('cases.mailServices.visuals'),
-          icon: <Cpu size={20} />
-        }
-      ]
-    },
-    {
       id: 'fashion',
       title: t('gallery.fashion.title'),
       accent: t('gallery.fashion.accent'),
@@ -241,6 +215,26 @@ export default function GalleryPage() {
 
         {/* Process Roadmap */}
         <ProcessRoadmap />
+
+        {/* Projects */}
+        <section id="projects" className="px-4 py-16 md:py-24">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <h2 className="text-2xl md:text-3xl font-mono text-white mb-3">
+                {language === 'ru' ? 'Проекты' : 'Projects'}
+              </h2>
+              <p className="text-xs text-white/30 font-mono tracking-[0.2em] uppercase">
+                {language === 'ru' ? 'открыто для инвестиций' : 'open for investment'}
+              </p>
+            </motion.div>
+            <ProjectsGrid language={language} />
+          </div>
+        </section>
 
         {/* Video showcase */}
         <section id="video" className="px-4 mb-32">

@@ -88,13 +88,30 @@ export default function ProcessRoadmap() {
     }
   ];
 
-  const StageCard = ({ stage, index }: { stage: Stage; index: number }) => (
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  };
+
+  const StageCard = ({ stage }: { stage: Stage }) => (
     <motion.div
       className="relative group"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
+      variants={itemVariants}
       onMouseEnter={() => setHoveredStage(stage.id)}
       onMouseLeave={() => setHoveredStage(null)}
     >
@@ -177,7 +194,7 @@ export default function ProcessRoadmap() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.3 }}
           className="text-center mb-16 md:mb-20"
         >
           <h2 className="text-2xl md:text-3xl font-mono text-white mb-3">
@@ -189,27 +206,33 @@ export default function ProcessRoadmap() {
         </motion.div>
 
         {/* Snake Layout - Staggered Grid */}
-        <div className="space-y-4 md:space-y-0">
+        <motion.div 
+          className="space-y-4 md:space-y-0"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {/* Row 1: 01 02 03 - standard */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            <StageCard stage={stages[0]} index={0} />
-            <StageCard stage={stages[1]} index={1} />
-            <StageCard stage={stages[2]} index={2} />
+            <StageCard stage={stages[0]} />
+            <StageCard stage={stages[1]} />
+            <StageCard stage={stages[2]} />
           </div>
 
           {/* Row 2: 06 05 04 - reversed (snake pattern) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             <div className="md:order-3">
-              <StageCard stage={stages[5]} index={3} />
+              <StageCard stage={stages[5]} />
             </div>
             <div className="md:order-2">
-              <StageCard stage={stages[4]} index={4} />
+              <StageCard stage={stages[4]} />
             </div>
             <div className="md:order-1">
-              <StageCard stage={stages[3]} index={5} />
+              <StageCard stage={stages[3]} />
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
