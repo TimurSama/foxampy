@@ -4,13 +4,13 @@ import './globals.css'
 import { I18nProvider } from '@/lib/i18n/context'
 
 export const metadata: Metadata = {
-  title: 'Foxampy Lab | Portfolio Gallery',
-  description: 'Portfolio gallery of Foxampy Lab - multidisciplinary solutions in IT, design, architecture, and cinema',
-  keywords: ['portfolio', 'gallery', 'design', 'architecture', 'IT', 'Foxampy'],
-  authors: [{ name: 'Foxampy Lab' }],
+  title: 'foxampy web',
+  description: 'Innovative creator - system design, interdisciplinary approach, architecture of environment',
+  keywords: ['portfolio', 'foxampy', 'creator', 'system design', 'innovation'],
+  authors: [{ name: 'foxampy' }],
   openGraph: {
-    title: 'Foxampy Lab | Portfolio Gallery',
-    description: 'Multidisciplinary solutions laboratory portfolio',
+    title: 'foxampy web',
+    description: 'Innovative creator - system design and interdisciplinary solutions',
     type: 'website',
   },
 };

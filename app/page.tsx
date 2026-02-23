@@ -234,58 +234,8 @@ export default function GalleryPage() {
 
       <Header />
 
-      <main className="relative z-10 pt-32 pb-24">
-        {/* Hero section */}
-        <section className="px-4 mb-24 min-h-[60vh] flex items-center justify-center">
-          <div className="max-w-6xl mx-auto text-center">
-            <motion.div 
-              className="inline-block p-12 bg-white/5 backdrop-blur-sm border border-white/10 rounded-sm space-y-6 hover:border-white/20 transition-all duration-500"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              whileHover={{ scale: 1.01 }}
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="font-mono text-[10px] text-white/50 tracking-[0.5em] uppercase"
-              >
-                {t('gallery.tagline')}
-              </motion.div>
-              <motion.h1
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-4xl md:text-6xl font-mono text-white"
-              >
-                {t('gallery.title')}
-              </motion.h1>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="flex items-center justify-center gap-4 pt-4"
-              >
-                <motion.div 
-                  className="h-px w-12 bg-white/20"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 0.6, duration: 0.4 }}
-                />
-                <span className="font-mono text-xs text-white/40">2025</span>
-                <motion.div 
-                  className="h-px w-12 bg-white/20"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 0.6, duration: 0.4 }}
-                />
-              </motion.div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* About section */}
+      <main className="relative z-10 pt-24 pb-24">
+        {/* About section - Main entry */}
         <AboutSection />
 
         {/* Video showcase */}
