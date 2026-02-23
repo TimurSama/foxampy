@@ -26,17 +26,17 @@ export default function ProcessRoadmap() {
   const stages: Stage[] = [
     {
       id: 'discovery',
-      icon: <Search size={20} />,
+      icon: <Search size={18} />,
       title: language === 'ru' ? 'Исследование' : 'Discovery',
       subtitle: language === 'ru' ? 'Анализ и аудит' : 'Analysis & Audit',
       description: language === 'ru' 
         ? 'Погружение в контекст, изучение рынка, конкурентов и аудитории. Формирование стратегического видения.'
-        : 'Deep dive into context, market research, competitor analysis and audience study.',
+        : 'Deep dive into context, market research, competitor analysis.',
       number: '01'
     },
     {
       id: 'concept',
-      icon: <Lightbulb size={20} />,
+      icon: <Lightbulb size={18} />,
       title: language === 'ru' ? 'Концепция' : 'Concept',
       subtitle: language === 'ru' ? 'Идея и позиционирование' : 'Idea & Positioning',
       description: language === 'ru'
@@ -46,94 +46,112 @@ export default function ProcessRoadmap() {
     },
     {
       id: 'design',
-      icon: <Compass size={20} />,
+      icon: <Compass size={18} />,
       title: language === 'ru' ? 'Проектирование' : 'Design',
       subtitle: language === 'ru' ? 'Стратегия и архитектура' : 'Strategy & Architecture',
       description: language === 'ru'
-        ? 'Стратегирование, разработка верхнеуровневой проектной архитектуры, брендирование, визуализация дизайна и UX/UI проработка.'
-        : 'Strategic planning, high-level architecture, branding, visual design and UX/UI.',
+        ? 'Стратегирование, разработка архитектуры, брендирование, визуализация дизайна и UX/UI.'
+        : 'Strategic planning, architecture, branding, visual design.',
       number: '03'
     },
     {
       id: 'development',
-      icon: <Hammer size={20} />,
+      icon: <Hammer size={18} />,
       title: language === 'ru' ? 'Разработка' : 'Development',
-      subtitle: language === 'ru' ? 'Создание и реализация' : 'Creation & Implementation',
+      subtitle: language === 'ru' ? 'Создание' : 'Creation',
       description: language === 'ru'
-        ? 'Полный цикл создания: прототипирование, производство, строительство, техническая разработка, программирование и интеграции.'
-        : 'Full creation cycle: prototyping, manufacturing, construction, technical development.',
+        ? 'Прототипирование, производство, строительство, техническая разработка и интеграции.'
+        : 'Prototyping, manufacturing, construction, technical development.',
       number: '04'
     },
     {
       id: 'launch',
-      icon: <Rocket size={20} />,
+      icon: <Rocket size={18} />,
       title: language === 'ru' ? 'Запуск' : 'Launch',
-      subtitle: language === 'ru' ? 'Релиз и продвижение' : 'Release & Promotion',
+      subtitle: language === 'ru' ? 'Релиз' : 'Release',
       description: language === 'ru'
-        ? 'Запуск продукта, вывод на рынок, маркетинговые кампании и первичный сбор обратной связи.'
-        : 'Product launch, market entry, marketing campaigns and feedback collection.',
+        ? 'Запуск продукта, вывод на рынок, маркетинговые кампании.'
+        : 'Product launch, market entry, marketing campaigns.',
       number: '05'
     },
     {
       id: 'evolution',
-      icon: <TrendingUp size={20} />,
+      icon: <TrendingUp size={18} />,
       title: language === 'ru' ? 'Развитие' : 'Evolution',
       subtitle: language === 'ru' ? 'Масштабирование' : 'Scaling',
       description: language === 'ru'
-        ? 'Поддержка, оптимизация, доработка, выход на новые рынки и масштабирование.'
-        : 'Support, optimization, refinement, entering new markets and scaling.',
+        ? 'Поддержка, оптимизация, выход на новые рынки и масштабирование.'
+        : 'Support, optimization, entering new markets.',
       number: '06'
     }
   ];
 
   const StageCard = ({ stage, index }: { stage: Stage; index: number }) => (
     <motion.div
-      className="relative group"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={{ once: true }}
       transition={{ delay: index * 0.08, duration: 0.4 }}
+      className="group relative"
     >
-      <div className="relative p-6 bg-white/[0.02] border border-white/[0.08] rounded-sm cursor-pointer overflow-hidden h-full transition-all duration-300 hover:bg-white/[0.04] hover:border-white/20">
-        {/* Background glow on hover - CSS only */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      {/* Glass Card */}
+      <div className="relative p-5 md:p-6
+                      bg-white/[0.02] backdrop-blur-xl
+                      border border-white/[0.08]
+                      rounded-xl
+                      transition-all duration-500 ease-out
+                      hover:bg-white/[0.04] hover:border-white/[0.15]
+                      hover:shadow-[0_0_40px_rgba(0,0,0,0.3)]
+                      h-full">
+        
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none
+                        bg-gradient-to-br from-white/[0.03] via-transparent to-transparent" />
 
-        {/* Number - large background */}
-        <div className="absolute top-2 right-3 font-mono text-5xl text-white/[0.03] select-none">
+        {/* Large number background */}
+        <div className="absolute top-3 right-3 font-mono text-4xl text-white/[0.03] select-none">
           {stage.number}
         </div>
 
         <div className="relative z-10">
-          {/* Icon - CSS hover */}
-          <div className="w-11 h-11 mb-5 flex items-center justify-center text-white/40 border border-white/10 bg-white/[0.03] transition-all duration-200 group-hover:border-white/25 group-hover:text-white/90">
+          {/* Icon */}
+          <div className="w-10 h-10 mb-4 
+                          flex items-center justify-center 
+                          text-white/40 
+                          border border-white/10 bg-white/[0.03]
+                          rounded-lg
+                          transition-all duration-300
+                          group-hover:border-white/20 group-hover:text-white/70">
             {stage.icon}
           </div>
 
-          {/* Number - small */}
-          <div className="font-mono text-[10px] text-white/30 mb-2 tracking-wider">
+          {/* Small number */}
+          <div className="font-mono text-[9px] text-white/25 mb-1.5 tracking-widest">
             {stage.number}
           </div>
 
           {/* Title */}
-          <h3 className="font-mono text-sm text-white mb-1.5 group-hover:text-white/90 transition-colors duration-200">
+          <h3 className="font-mono text-sm text-white mb-1 
+                         group-hover:text-white/90 transition-colors">
             {stage.title}
           </h3>
           
           {/* Subtitle */}
-          <p className="text-[11px] text-white/35 mb-4 group-hover:text-white/50 transition-colors duration-200">
+          <p className="text-[10px] text-white/30 mb-3 
+                        group-hover:text-white/40 transition-colors">
             {stage.subtitle}
           </p>
 
-          {/* Description - CSS hover opacity */}
-          <p className="text-xs text-white/45 leading-relaxed transition-opacity duration-200 group-hover:opacity-90">
+          {/* Description */}
+          <p className="text-[11px] text-white/35 leading-relaxed
+                        group-hover:text-white/50 transition-colors">
             {stage.description}
           </p>
         </div>
 
-        {/* Corner accent - CSS hover */}
-        <div className="absolute bottom-0 right-0 w-12 h-12 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <div className="absolute bottom-3 right-3 w-1.5 h-1.5 bg-white/30 rounded-full" />
-        </div>
+        {/* Corner dot */}
+        <div className="absolute bottom-3 right-3 w-1 h-1 rounded-full bg-white/30
+                        opacity-0 group-hover:opacity-100 transition-opacity" />
       </div>
     </motion.div>
   );
@@ -145,29 +163,29 @@ export default function ProcessRoadmap() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16 md:mb-20"
+          className="text-center mb-14"
         >
-          <h2 className="text-2xl md:text-3xl font-mono text-white mb-3">
+          <h2 className="text-2xl md:text-3xl font-mono text-white mb-2">
             {language === 'ru' ? 'Полный цикл' : 'Full Cycle'}
           </h2>
-          <p className="text-xs text-white/30 font-mono tracking-[0.2em] uppercase">
+          <p className="text-[11px] text-white/25 font-mono tracking-[0.2em] uppercase">
             {language === 'ru' ? 'от идеи до масштабирования' : 'from idea to scaling'}
           </p>
         </motion.div>
 
-        {/* Snake Layout - Staggered Grid */}
-        <div className="space-y-4 md:space-y-0">
-          {/* Row 1: 01 02 03 - standard */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        {/* Snake Grid */}
+        <div className="space-y-4 md:space-y-5">
+          {/* Row 1 */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
             <StageCard stage={stages[0]} index={0} />
             <StageCard stage={stages[1]} index={1} />
             <StageCard stage={stages[2]} index={2} />
           </div>
 
-          {/* Row 2: 06 05 04 - reversed (snake pattern) */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+          {/* Row 2 - reversed */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
             <div className="md:order-3">
               <StageCard stage={stages[5]} index={3} />
             </div>
