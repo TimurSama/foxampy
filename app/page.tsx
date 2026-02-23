@@ -394,7 +394,7 @@ export default function GalleryPage() {
                               transition={{ duration: 0.3, ease: "easeOut" }}
                               className="mt-8 pt-8 border-t border-white/10 overflow-hidden"
                             >
-                              <div className="grid md:grid-cols-2 gap-12">
+                              <div className="max-w-3xl">
                                 <div className="space-y-6">
                                   <div className="space-y-3">
                                     <h4 className="font-mono text-[10px] text-white/40 uppercase tracking-widest">
@@ -414,29 +414,6 @@ export default function GalleryPage() {
                                       </p>
                                     </div>
                                   )}
-                                </div>
-                                <div className="space-y-6">
-                                  {project.visuals && (
-                                    <div className="space-y-3">
-                                      <h4 className="font-mono text-[10px] text-white/40 uppercase tracking-widest">
-                                        {language === 'ru' ? 'Визуальная концепция' : 'Visual Concept'}
-                                      </h4>
-                                      <div className="p-6 border border-white/10 bg-black/30 font-mono text-xs text-white/60 leading-relaxed">
-                                        {project.visuals}
-                                      </div>
-                                    </div>
-                                  )}
-                                  <motion.button 
-                                    className="w-full py-4 border border-white/20 hover:bg-white hover:text-black transition-all font-mono text-xs tracking-[0.2em] uppercase text-white/80 hover:text-black"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      alert('Contact form coming soon!');
-                                    }}
-                                    whileHover={{ scale: 1.01 }}
-                                    whileTap={{ scale: 0.99 }}
-                                  >
-                                    {language === 'ru' ? 'Обсудить похожий проект' : 'Discuss similar project'}
-                                  </motion.button>
                                 </div>
                               </div>
                             </motion.div>
