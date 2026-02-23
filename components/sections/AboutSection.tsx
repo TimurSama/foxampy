@@ -20,8 +20,8 @@ export default function AboutSection() {
             className="absolute left-0 top-1/2 -translate-y-1/2 w-full max-w-[200px] h-[70vh] bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
             style={{
               backgroundImage: `url('/photo/слева.png')`,
-              maskImage: 'linear-gradient(to right, black 0%, black 60%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to right, black 0%, black 60%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+              maskImage: 'linear-gradient(to right, black 0%, black 50%, transparent 100%), linear-gradient(to top, transparent 0%, black 20%), linear-gradient(to bottom, transparent 0%, black 20%)',
+              WebkitMaskImage: 'linear-gradient(to right, black 0%, black 50%, transparent 100%), linear-gradient(to top, transparent 0%, black 20%), linear-gradient(to bottom, transparent 0%, black 20%)',
             }}
           />
         </motion.div>
@@ -75,8 +75,8 @@ export default function AboutSection() {
             className="absolute right-0 top-1/2 -translate-y-1/2 w-full max-w-[200px] h-[70vh] bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
             style={{
               backgroundImage: `url('/photo/справа.png')`,
-              maskImage: 'linear-gradient(to left, black 0%, black 60%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to left, black 0%, black 60%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+              maskImage: 'linear-gradient(to left, black 0%, black 50%, transparent 100%), linear-gradient(to top, transparent 0%, black 20%), linear-gradient(to bottom, transparent 0%, black 20%)',
+              WebkitMaskImage: 'linear-gradient(to left, black 0%, black 50%, transparent 100%), linear-gradient(to top, transparent 0%, black 20%), linear-gradient(to bottom, transparent 0%, black 20%)',
             }}
           />
         </motion.div>
