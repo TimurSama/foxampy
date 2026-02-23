@@ -440,7 +440,7 @@ export default function GalleryPage() {
                 {language === 'ru' ? 'личные разработки' : 'personal projects'}
               </p>
             </motion.div>
-            <ProjectsGrid language={language} />
+            <ProjectsGrid />
           </div>
         </section>
       </main>
