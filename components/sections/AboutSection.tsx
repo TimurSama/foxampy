@@ -9,21 +9,24 @@ export default function AboutSection() {
   return (
     <section id="about" className="relative min-h-screen flex items-center overflow-hidden">
       <div className="w-full grid grid-cols-12 min-h-screen">
-        {/* Left Photo - Attached to left edge, fade on right/top/bottom */}
+        {/* Left Photo Container */}
         <motion.div 
-          className="hidden lg:block lg:col-span-2 relative"
+          className="hidden lg:block lg:col-span-2 relative overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
+          {/* Photo */}
           <div 
-            className="absolute left-0 top-1/2 -translate-y-1/2 w-full max-w-[200px] h-[70vh] bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
+            className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[80vh] bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
             style={{
               backgroundImage: `url('/photo/слева.png')`,
-              maskImage: 'linear-gradient(to right, black 0%, black 50%, transparent 100%), linear-gradient(to top, transparent 0%, black 20%), linear-gradient(to bottom, transparent 0%, black 20%)',
-              WebkitMaskImage: 'linear-gradient(to right, black 0%, black 50%, transparent 100%), linear-gradient(to top, transparent 0%, black 20%), linear-gradient(to bottom, transparent 0%, black 20%)',
             }}
           />
+          {/* Fade overlays */}
+          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#030303] to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#030303] to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#030303] to-transparent" />
         </motion.div>
 
         {/* Center Content */}
@@ -64,21 +67,24 @@ export default function AboutSection() {
           </p>
         </motion.div>
 
-        {/* Right Photo - Attached to right edge, fade on left/top/bottom */}
+        {/* Right Photo Container */}
         <motion.div 
-          className="hidden lg:block lg:col-span-2 relative"
+          className="hidden lg:block lg:col-span-2 relative overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
+          {/* Photo */}
           <div 
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-full max-w-[200px] h-[70vh] bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
+            className="absolute right-0 top-1/2 -translate-y-1/2 w-full h-[80vh] bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
             style={{
               backgroundImage: `url('/photo/справа.png')`,
-              maskImage: 'linear-gradient(to left, black 0%, black 50%, transparent 100%), linear-gradient(to top, transparent 0%, black 20%), linear-gradient(to bottom, transparent 0%, black 20%)',
-              WebkitMaskImage: 'linear-gradient(to left, black 0%, black 50%, transparent 100%), linear-gradient(to top, transparent 0%, black 20%), linear-gradient(to bottom, transparent 0%, black 20%)',
             }}
           />
+          {/* Fade overlays */}
+          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#030303] to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#030303] to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#030303] to-transparent" />
         </motion.div>
       </div>
     </section>
