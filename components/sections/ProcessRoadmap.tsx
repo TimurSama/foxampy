@@ -7,11 +7,10 @@ import {
   Search,
   Lightbulb,
   FileText,
-  Palette,
-  Code,
+  Compass,
+  Hammer,
   Rocket,
-  TrendingUp,
-  ChevronRight
+  TrendingUp
 } from 'lucide-react';
 
 interface Stage {
@@ -21,7 +20,6 @@ interface Stage {
   subtitle: string;
   description: string;
   deliverables: string[];
-  color: string;
 }
 
 export default function ProcessRoadmap() {
@@ -33,14 +31,13 @@ export default function ProcessRoadmap() {
       id: 'discovery',
       icon: <Search size={18} />,
       title: language === 'ru' ? 'Исследование' : 'Discovery',
-      subtitle: language === 'ru' ? 'Аудит и анализ' : 'Audit & Analysis',
+      subtitle: language === 'ru' ? 'Анализ и аудит' : 'Analysis & Audit',
       description: language === 'ru' 
-        ? 'Погружение в контекст, изучение рынка, конкурентов и целевой аудитории. Формирование видения проекта.'
-        : 'Immersion into context, market research, competitor analysis and target audience study. Forming project vision.',
+        ? 'Погружение в контекст, изучение рынка, конкурентов и аудитории. Формирование стратегического видения.'
+        : 'Deep dive into context, market research, competitor analysis and audience study. Forming strategic vision.',
       deliverables: language === 'ru' 
-        ? ['Бриф', 'Аудит', 'Стратегия'] 
-        : ['Brief', 'Audit', 'Strategy'],
-      color: '#3a3a45'
+        ? ['Бриф', 'Исследование', 'Стратегия'] 
+        : ['Brief', 'Research', 'Strategy'],
     },
     {
       id: 'concept',
@@ -53,33 +50,30 @@ export default function ProcessRoadmap() {
       deliverables: language === 'ru'
         ? ['Концепт', 'Moodboard', 'Позиционирование']
         : ['Concept', 'Moodboard', 'Positioning'],
-      color: '#4a4a55'
     },
     {
       id: 'design',
-      icon: <Palette size={18} />,
+      icon: <Compass size={18} />,
       title: language === 'ru' ? 'Проектирование' : 'Design',
-      subtitle: language === 'ru' ? 'Архитектура и визуал' : 'Architecture & Visual',
+      subtitle: language === 'ru' ? 'Стратегия и архитектура' : 'Strategy & Architecture',
       description: language === 'ru'
-        ? 'Создание структуры, прототипов, визуальной системы и детальной проработки всех элементов.'
-        : 'Creating structure, prototypes, visual system and detailed elaboration of all elements.',
+        ? 'Стратегирование, разработка верхнеуровневой проектной архитектуры, брендирование, визуализация дизайна и UX/UI проработка.'
+        : 'Strategic planning, high-level project architecture, branding, visual design and UX/UI development.',
       deliverables: language === 'ru'
-        ? ['Прототипы', 'Дизайн-система', 'Гайдлайны']
-        : ['Prototypes', 'Design System', 'Guidelines'],
-      color: '#5a5a65'
+        ? ['Архитектура', 'Бренд', 'UX/UI', 'Гайдлайны']
+        : ['Architecture', 'Brand', 'UX/UI', 'Guidelines'],
     },
     {
       id: 'development',
-      icon: <Code size={18} />,
+      icon: <Hammer size={18} />,
       title: language === 'ru' ? 'Разработка' : 'Development',
-      subtitle: language === 'ru' ? 'Создание продукта' : 'Product Creation',
+      subtitle: language === 'ru' ? 'Создание и реализация' : 'Creation & Implementation',
       description: language === 'ru'
-        ? 'Техническая реализация, программирование, интеграции и подготовка к запуску.'
-        : 'Technical implementation, programming, integrations and launch preparation.',
+        ? 'Полный цикл создания: прототипирование, производство, строительство, техническая разработка, программирование и интеграции.'
+        : 'Full creation cycle: prototyping, manufacturing, construction, technical development, programming and integrations.',
       deliverables: language === 'ru'
-        ? ['Код', 'Тестирование', 'Документация']
-        : ['Code', 'Testing', 'Documentation'],
-      color: '#6a6a75'
+        ? ['Прототипы', 'Продукция', 'Код', 'Документация']
+        : ['Prototypes', 'Production', 'Code', 'Documentation'],
     },
     {
       id: 'launch',
@@ -87,12 +81,11 @@ export default function ProcessRoadmap() {
       title: language === 'ru' ? 'Запуск' : 'Launch',
       subtitle: language === 'ru' ? 'Релиз и продвижение' : 'Release & Promotion',
       description: language === 'ru'
-        ? 'Публикация продукта, маркетинговые активности и первичный сбор обратной связи.'
-        : 'Product publication, marketing activities and initial feedback collection.',
+        ? 'Запуск продукта, вывод на рынок, маркетинговые кампании и первичный сбор обратной связи.'
+        : 'Product launch, market entry, marketing campaigns and initial feedback collection.',
       deliverables: language === 'ru'
         ? ['Релиз', 'Маркетинг', 'PR']
         : ['Release', 'Marketing', 'PR'],
-      color: '#7a7a85'
     },
     {
       id: 'evolution',
@@ -100,12 +93,11 @@ export default function ProcessRoadmap() {
       title: language === 'ru' ? 'Развитие' : 'Evolution',
       subtitle: language === 'ru' ? 'Масштабирование' : 'Scaling',
       description: language === 'ru'
-        ? 'Поддержка, оптимизация, добавление новых функций и масштабирование продукта.'
-        : 'Support, optimization, adding new features and product scaling.',
+        ? 'Поддержка, оптимизация, доработка, выход на новые рынки и масштабирование.'
+        : 'Support, optimization, refinement, entering new markets and scaling.',
       deliverables: language === 'ru'
         ? ['Аналитика', 'Обновления', 'Рост']
         : ['Analytics', 'Updates', 'Growth'],
-      color: '#8a8a95'
     }
   ];
 
@@ -129,17 +121,17 @@ export default function ProcessRoadmap() {
             </span>
           </motion.div>
           
-          <h2 className="text-2xl md:text-3xl font-mono text-white mb-4">
+          <h2 className="text-2xl md:text-3xl font-mono text-white">
             {language === 'ru' 
-              ? 'Дорожная карта разработки'
-              : 'Development Roadmap'
+              ? 'Полный цикл'
+              : 'Full Cycle'
             }
           </h2>
           
-          <p className="text-sm text-white/50 max-w-xl mx-auto">
+          <p className="text-xs text-white/40 mt-2 font-mono tracking-wider">
             {language === 'ru'
-              ? 'От идеи до масштабирования — работаю с проектами на любой стадии'
-              : 'From idea to scaling — working with projects at any stage'
+              ? 'от идеи до масштабирования'
+              : 'from idea to scaling'
             }
           </p>
         </motion.div>
@@ -228,7 +220,7 @@ export default function ProcessRoadmap() {
                   {/* Arrow for mobile */}
                   {idx < stages.length - 1 && (
                     <div className="md:hidden absolute -bottom-3 left-1/2 -translate-x-1/2 text-white/20">
-                      <ChevronRight size={16} className="rotate-90" />
+                      <span className="text-xs">↓</span>
                     </div>
                   )}
                 </motion.div>
@@ -246,22 +238,6 @@ export default function ProcessRoadmap() {
               </motion.div>
             ))}
           </div>
-
-          {/* Entry point note */}
-          <motion.div 
-            className="mt-12 p-4 border border-white/10 bg-white/[0.02] text-center"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6 }}
-          >
-            <p className="text-xs text-white/50">
-              {language === 'ru' 
-                ? '↳ Можно начать с любого этапа — от аудита существующего проекта до создания с нуля'
-                : '↳ Can start at any stage — from auditing existing project to creating from scratch'
-              }
-            </p>
-          </motion.div>
         </div>
       </div>
     </section>
