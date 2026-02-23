@@ -19,7 +19,7 @@ export default function AboutSection() {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#030303] z-10" />
           <img 
-            src="/photo/photo1.png" 
+            src="/photo/слева.png" 
             alt="foxampy" 
             className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700"
           />
@@ -77,7 +77,7 @@ export default function AboutSection() {
         >
           <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-[#030303] z-10" />
           <img 
-            src="/photo/photo2.png" 
+            src="/photo/справа.png" 
             alt="foxampy" 
             className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700"
           />
@@ -92,7 +92,7 @@ export default function AboutSection() {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <img 
-              src="/photo/photo1.png" 
+              src="/photo/слева.png" 
               alt="foxampy" 
               className="w-full h-full object-cover grayscale"
             />
@@ -104,7 +104,7 @@ export default function AboutSection() {
             transition={{ duration: 0.6, delay: 0.5 }}
           >
             <img 
-              src="/photo/photo2.png" 
+              src="/photo/справа.png" 
               alt="foxampy" 
               className="w-full h-full object-cover grayscale"
             />
