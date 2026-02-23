@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import AboutSection from '@/components/sections/AboutSection';
+import ProcessRoadmap from '@/components/sections/ProcessRoadmap';
 import { useI18n } from '@/lib/i18n/context';
 import { useState, useEffect } from 'react';
 
@@ -237,6 +238,9 @@ export default function GalleryPage() {
       <main className="relative z-10 pt-24 pb-24">
         {/* About section - Main entry */}
         <AboutSection />
+
+        {/* Process Roadmap */}
+        <ProcessRoadmap />
 
         {/* Video showcase */}
         <section id="video" className="px-4 mb-32">
