@@ -1,9 +1,8 @@
 "use client";
 
-import LiquidCSS from './LiquidCSS';
+import OilFlowBackground from './OilFlowBackground';
 
 export default function GlobalBackground() {
-  // Using only CSS-based background for maximum performance
-  // while maintaining visual quality
-  return <LiquidCSS />;
+  // Clean oil flow background - lightweight and performant
+  return <OilFlowBackground />;
 }

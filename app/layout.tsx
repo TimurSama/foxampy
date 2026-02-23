@@ -35,14 +35,8 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <I18nProvider>
-          {/* Atmospheric effects */}
-          <div className="noise-overlay" />
-          <div className="scanlines" />
-          <div className="vignette" />
-
-          {/* Global Liquid Background */}
+          {/* Clean Oil Flow Background */}
           <GlobalBackground />
-
           {children}
         </I18nProvider>
       </body>

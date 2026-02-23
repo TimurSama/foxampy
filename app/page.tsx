@@ -13,6 +13,7 @@ import {
   ChevronLeft
 } from 'lucide-react';
 import Header from '@/components/layout/Header';
+import AboutSection from '@/components/sections/AboutSection';
 import { useI18n } from '@/lib/i18n/context';
 import { useState, useEffect } from 'react';
 
@@ -44,17 +45,24 @@ const architectureImages = [
 
 function ImageCarousel({ images }: { images: string[] }) {
   const [index, setIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   const next = () => setIndex((prev) => (prev + 1) % images.length);
   const prev = () => setIndex((prev) => (prev - 1 + images.length) % images.length);
 
   useEffect(() => {
+    if (isHovered) return;
     const timer = setInterval(next, 5000);
     return () => clearInterval(timer);
-  }, [images.length]);
+  }, [images.length, isHovered]);
 
   return (
-    <div className="relative w-full aspect-[4/5] md:aspect-auto md:h-[50vh] overflow-hidden border border-[#E0E0E0]/10 bg-[#0A0A0A]">
+    <motion.div 
+      className="relative w-full aspect-[4/5] md:aspect-auto md:h-[50vh] overflow-hidden border border-white/10 bg-black/30 group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
+    >
       <AnimatePresence mode="wait">
         <motion.img
           key={index}
@@ -69,31 +77,38 @@ function ImageCarousel({ images }: { images: string[] }) {
       </AnimatePresence>
 
       {/* Controls */}
-      <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
-        <button
+      <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <motion.button
           onClick={(e) => { e.stopPropagation(); prev(); }}
-          className="pointer-events-auto w-10 h-10 flex items-center justify-center bg-[#050505]/50 border border-[#E0E0E0]/10 text-white hover:bg-[#E0E0E0]/10 transition-colors"
+          className="pointer-events-auto w-10 h-10 flex items-center justify-center bg-black/50 backdrop-blur-sm border border-white/20 text-white hover:bg-white/10 hover:border-white/40 transition-all"
+          whileHover={{ scale: 1.1, x: -2 }}
+          whileTap={{ scale: 0.95 }}
         >
           <ChevronLeft size={20} />
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           onClick={(e) => { e.stopPropagation(); next(); }}
-          className="pointer-events-auto w-10 h-10 flex items-center justify-center bg-[#050505]/50 border border-[#E0E0E0]/10 text-white hover:bg-[#E0E0E0]/10 transition-colors"
+          className="pointer-events-auto w-10 h-10 flex items-center justify-center bg-black/50 backdrop-blur-sm border border-white/20 text-white hover:bg-white/10 hover:border-white/40 transition-all"
+          whileHover={{ scale: 1.1, x: 2 }}
+          whileTap={{ scale: 0.95 }}
         >
           <ChevronRight size={20} />
-        </button>
+        </motion.button>
       </div>
 
       {/* Progress dots */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
         {images.map((_, i) => (
-          <div
+          <motion.button
             key={i}
-            className={`h-1 transition-all duration-300 ${i === index ? 'w-8 bg-[#E0E0E0]' : 'w-2 bg-[#E0E0E0]/20'}`}
+            onClick={() => setIndex(i)}
+            className={`h-1 rounded-full transition-all duration-300 ${i === index ? 'bg-white' : 'bg-white/20 hover:bg-white/40'}`}
+            animate={{ width: i === index ? 32 : 8 }}
+            whileHover={{ scale: 1.2 }}
           />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -214,46 +229,85 @@ export default function GalleryPage() {
 
   return (
     <div className="relative min-h-screen bg-transparent">
-      {/* Background elements */}
-      <div className="fixed inset-0 oil-shimmer opacity-[0.03] pointer-events-none" />
-      <div className="fixed inset-0 bg-gradient-to-b from-transparent via-[#050505]/50 to-[#050505] pointer-events-none" />
+      {/* Subtle gradient overlay for depth */}
+      <div className="fixed inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30 pointer-events-none" />
 
       <Header />
 
       <main className="relative z-10 pt-32 pb-24">
         {/* Hero section */}
-        <section className="px-4 mb-24">
+        <section className="px-4 mb-24 min-h-[60vh] flex items-center justify-center">
           <div className="max-w-6xl mx-auto text-center">
-            <div className="inline-block p-12 bg-glass-matte rounded-sm shadow-2xl space-y-6">
+            <motion.div 
+              className="inline-block p-12 bg-white/5 backdrop-blur-sm border border-white/10 rounded-sm space-y-6 hover:border-white/20 transition-all duration-500"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              whileHover={{ scale: 1.01 }}
+            >
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="font-mono text-[10px] text-[#E0E0E0]/60 tracking-[0.5em]"
+                transition={{ delay: 0.2 }}
+                className="font-mono text-[10px] text-white/50 tracking-[0.5em] uppercase"
               >
-                ─── {t('gallery.tagline')} ───
+                {t('gallery.tagline')}
               </motion.div>
               <motion.h1
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-4xl md:text-6xl font-mono text-[#E0E0E0]"
+                transition={{ delay: 0.3 }}
+                className="text-4xl md:text-6xl font-mono text-white"
               >
                 {t('gallery.title')}
               </motion.h1>
-            </div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="flex items-center justify-center gap-4 pt-4"
+              >
+                <motion.div 
+                  className="h-px w-12 bg-white/20"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.6, duration: 0.4 }}
+                />
+                <span className="font-mono text-xs text-white/40">2025</span>
+                <motion.div 
+                  className="h-px w-12 bg-white/20"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.6, duration: 0.4 }}
+                />
+              </motion.div>
+            </motion.div>
           </div>
         </section>
+
+        {/* About section */}
+        <AboutSection />
 
         {/* Video showcase */}
         <section id="video" className="px-4 mb-32">
           <div className="max-w-6xl mx-auto space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="text-[#E0E0E0]">
+            <motion.div 
+              className="flex items-center gap-3"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <motion.div 
+                className="text-white/70"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
                 <Film size={18} />
-              </div>
-              <div className="font-mono text-xs text-[#E0E0E0]/60 tracking-[0.25em] uppercase">
+              </motion.div>
+              <div className="font-mono text-xs text-white/50 tracking-[0.25em] uppercase">
                 {t('gallery.video.title')}
               </div>
-            </div>
+            </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {videoShowcase.map((item, idx) => (
@@ -263,7 +317,8 @@ export default function GalleryPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.05 }}
-                  className="border border-[#E0E0E0]/20 bg-[#0A0A0A] overflow-hidden group"
+                  whileHover={{ y: -4 }}
+                  className="border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden group hover:border-white/20 transition-all duration-300"
                 >
                   <div className="relative aspect-video bg-[#050505]">
                     <video
@@ -276,13 +331,20 @@ export default function GalleryPage() {
                       className="w-full h-full object-contain"
                     />
                   </div>
-                  <div className="p-4 flex items-center justify-between border-t border-[#E0E0E0]/10">
-                    <h3 className="font-mono text-sm text-[#E0E0E0]">{item.title}</h3>
+                  <div className="p-4 flex items-center justify-between border-t border-white/10 group-hover:border-white/20 transition-colors">
+                    <h3 className="font-mono text-sm text-white group-hover:text-white/90 transition-colors">{item.title}</h3>
                     <div className="flex gap-2">
-                      {item.tags.map(tag => (
-                        <span key={tag} className="font-mono text-[8px] px-1.5 py-0.5 border border-[#E0E0E0]/10 text-[#E0E0E0]/40">
+                      {item.tags.map((tag, tagIdx) => (
+                        <motion.span 
+                          key={tag} 
+                          className="font-mono text-[8px] px-1.5 py-0.5 border border-white/10 text-white/40 group-hover:border-white/20 group-hover:text-white/60 transition-all"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.1 + tagIdx * 0.05 }}
+                        >
                           {tag}
-                        </span>
+                        </motion.span>
                       ))}
                     </div>
                   </div>
@@ -297,24 +359,37 @@ export default function GalleryPage() {
           <div className="max-w-6xl mx-auto space-y-24">
             {gallerySections.map((block) => (
               <div key={block.id} id={block.id} className="space-y-12">
-                <div className="inline-flex items-center gap-6 p-6 bg-black/40 backdrop-blur-xl border border-white/10 rounded-sm shadow-xl">
-                  <div className="w-12 h-12 border border-white/10 flex items-center justify-center text-[#E0E0E0] bg-white/5">
+                <motion.div 
+                  className="inline-flex items-center gap-6 p-6 bg-white/5 backdrop-blur-xl border border-white/10 rounded-sm hover:border-white/20 transition-all duration-300 group"
+                  whileHover={{ scale: 1.01, y: -2 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  <motion.div 
+                    className="w-12 h-12 border border-white/10 flex items-center justify-center text-white/70 bg-white/5 group-hover:border-white/20 group-hover:text-white transition-all"
+                    whileHover={{ rotate: 5, scale: 1.05 }}
+                  >
                     {block.icon}
-                  </div>
+                  </motion.div>
                   <div>
-                    <div className="font-mono text-[10px] text-[#E0E0E0]/40 tracking-[0.3em] uppercase mb-1">
+                    <div className="font-mono text-[10px] text-white/40 tracking-[0.3em] uppercase mb-1">
                       {block.accent}
                     </div>
-                    <h2 className="font-mono text-2xl text-[#E0E0E0] uppercase tracking-widest">
+                    <h2 className="font-mono text-2xl text-white/90 uppercase tracking-widest group-hover:text-white transition-colors">
                       {block.title}
                     </h2>
                   </div>
-                </div>
+                </motion.div>
 
                 {block.description && (
-                  <p className="font-mono text-sm text-[#E0E0E0]/60 max-w-2xl leading-relaxed">
+                  <motion.p 
+                    className="font-mono text-sm text-white/50 max-w-2xl leading-relaxed"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.2 }}
+                  >
                     {block.description}
-                  </p>
+                  </motion.p>
                 )}
 
                 {block.isCarousel ? (
@@ -328,26 +403,30 @@ export default function GalleryPage() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: idx * 0.1 }}
-                        className={`group border transition-all duration-500 ${activeProject === project.id
-                          ? 'border-[#E0E0E0]/40 bg-[#E0E0E0]/5'
-                          : 'border-[#E0E0E0]/10 bg-[#0A0A0A]/50 hover:border-[#E0E0E0]/20'
+                        className={`group border backdrop-blur-sm transition-all duration-300 cursor-pointer overflow-hidden ${activeProject === project.id
+                          ? 'border-white/30 bg-white/10'
+                          : 'border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/[0.07]'
                           }`}
                         onClick={() => setActiveProject(activeProject === project.id ? null : project.id)}
                       >
                         <div className="p-8">
                           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 cursor-pointer">
                             <div className="space-y-2">
-                              <div className="font-mono text-[10px] text-[#E0E0E0]/40 uppercase tracking-widest">
+                              <motion.div 
+                                className="font-mono text-[10px] text-white/40 uppercase tracking-widest"
+                                whileHover={{ x: 4 }}
+                              >
                                 {project.category}
-                              </div>
-                              <h3 className="font-mono text-xl text-[#E0E0E0] group-hover:text-white transition-colors">
+                              </motion.div>
+                              <h3 className="font-mono text-xl text-white/90 group-hover:text-white transition-colors">
                                 {project.title}
                               </h3>
                             </div>
                             <div className="flex items-center gap-4">
                               <motion.div
                                 animate={{ rotate: activeProject === project.id ? 90 : 0 }}
-                                className="text-[#E0E0E0]/40"
+                                className="text-white/40 group-hover:text-white/60 transition-colors"
+                                whileHover={{ scale: 1.1 }}
                               >
                                 <ChevronRight size={20} />
                               </motion.div>
@@ -358,24 +437,25 @@ export default function GalleryPage() {
                             <motion.div
                               initial={{ opacity: 0, height: 0 }}
                               animate={{ opacity: 1, height: 'auto' }}
-                              className="mt-8 pt-8 border-t border-[#E0E0E0]/10 overflow-hidden"
+                              transition={{ duration: 0.3, ease: "easeOut" }}
+                              className="mt-8 pt-8 border-t border-white/10 overflow-hidden"
                             >
                               <div className="grid md:grid-cols-2 gap-12">
                                 <div className="space-y-6">
                                   <div className="space-y-3">
-                                    <h4 className="font-mono text-[10px] text-[#E0E0E0]/40 uppercase tracking-widest">
+                                    <h4 className="font-mono text-[10px] text-white/40 uppercase tracking-widest">
                                       {language === 'ru' ? 'Описание' : 'Description'}
                                     </h4>
-                                    <p className="font-mono text-sm text-[#E0E0E0]/80 leading-relaxed whitespace-pre-line">
+                                    <p className="font-mono text-sm text-white/70 leading-relaxed whitespace-pre-line">
                                       {project.description}
                                     </p>
                                   </div>
                                   {project.solution && (
                                     <div className="space-y-3">
-                                      <h4 className="font-mono text-[10px] text-[#E0E0E0]/40 uppercase tracking-widest">
+                                      <h4 className="font-mono text-[10px] text-white/40 uppercase tracking-widest">
                                         {language === 'ru' ? 'Решение' : 'Solution'}
                                       </h4>
-                                      <p className="font-mono text-sm text-[#E0E0E0]/80 leading-relaxed italic">
+                                      <p className="font-mono text-sm text-white/70 leading-relaxed italic">
                                         {project.solution}
                                       </p>
                                     </div>
@@ -384,23 +464,25 @@ export default function GalleryPage() {
                                 <div className="space-y-6">
                                   {project.visuals && (
                                     <div className="space-y-3">
-                                      <h4 className="font-mono text-[10px] text-[#E0E0E0]/40 uppercase tracking-widest">
+                                      <h4 className="font-mono text-[10px] text-white/40 uppercase tracking-widest">
                                         {language === 'ru' ? 'Визуальная концепция' : 'Visual Concept'}
                                       </h4>
-                                      <div className="p-6 border border-[#E0E0E0]/10 bg-[#050505] font-mono text-xs text-[#E0E0E0]/70 leading-relaxed">
+                                      <div className="p-6 border border-white/10 bg-black/30 font-mono text-xs text-white/60 leading-relaxed">
                                         {project.visuals}
                                       </div>
                                     </div>
                                   )}
-                                  <button 
-                                    className="w-full py-4 border border-[#E0E0E0]/20 hover:bg-[#E0E0E0] hover:text-[#050505] transition-all font-mono text-xs tracking-[0.2em] uppercase"
+                                  <motion.button 
+                                    className="w-full py-4 border border-white/20 hover:bg-white hover:text-black transition-all font-mono text-xs tracking-[0.2em] uppercase text-white/80 hover:text-black"
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       alert('Contact form coming soon!');
                                     }}
+                                    whileHover={{ scale: 1.01 }}
+                                    whileTap={{ scale: 0.99 }}
                                   >
                                     {language === 'ru' ? 'Обсудить похожий проект' : 'Discuss similar project'}
-                                  </button>
+                                  </motion.button>
                                 </div>
                               </div>
                             </motion.div>
@@ -417,15 +499,24 @@ export default function GalleryPage() {
 
         {/* Footer */}
         <footer className="px-4 mt-32">
-          <div className="max-w-6xl mx-auto pt-12 border-t border-[#E0E0E0]/10">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="font-mono text-sm text-[#E0E0E0]/60 tracking-[0.2em]">
+          <div className="max-w-6xl mx-auto pt-12 border-t border-white/10">
+            <motion.div 
+              className="flex flex-col md:flex-row items-center justify-between gap-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <motion.div 
+                className="font-mono text-sm text-white/60 tracking-[0.2em] hover:text-white transition-colors cursor-pointer"
+                whileHover={{ scale: 1.02 }}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              >
                 FOXAMPY LAB
-              </div>
-              <div className="font-mono text-xs text-[#E0E0E0]/40">
+              </motion.div>
+              <div className="font-mono text-xs text-white/30">
                 © 2025 Foxampy Lab. {language === 'ru' ? 'Все права защищены.' : 'All rights reserved.'}
               </div>
-            </div>
+            </motion.div>
           </div>
         </footer>
       </main>
