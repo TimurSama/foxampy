@@ -255,7 +255,6 @@ export default function GalleryPage() {
                       muted
                       playsInline
                       preload="none"
-                      loading="lazy"
                       className="w-full h-full object-contain"
                     />
                   </div>
