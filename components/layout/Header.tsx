@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Menu, X, Globe, MessageCircle } from 'lucide-react';
+import { Menu, X, Globe, Mail } from 'lucide-react';
 import { useI18n } from '@/lib/i18n/context';
 import type { Language } from '@/lib/i18n/translations';
 
@@ -56,15 +56,15 @@ export default function Header({ onContactClick }: HeaderProps) {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
-      <div className="mx-2 md:mx-8 mt-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-lg hover:border-white/15 transition-colors duration-300">
+      <div className="mx-4 md:mx-8 mt-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-sm hover:border-white/15 transition-colors duration-300">
         <div className="px-4 md:px-6 py-3 flex items-center justify-between relative">
           {/* Left - Menu + Contact Button */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {/* Burger Menu */}
             <div className="relative" ref={menuRef}>
               <motion.button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="p-2.5 border border-white/10 text-white/60 rounded-lg
+                className="p-2.5 border border-white/10 text-white/50 
                          hover:text-white hover:border-white/30 transition-all duration-200"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -85,13 +85,13 @@ export default function Header({ onContactClick }: HeaderProps) {
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2, ease: "easeOut" }}
                     className="absolute top-full left-0 mt-2 bg-black/90 backdrop-blur-xl border border-white/10 
-                             min-w-[180px] z-50 overflow-hidden rounded-lg"
+                             min-w-[180px] z-50 overflow-hidden"
                   >
                     {menuItemsConfig.map((item) => (
                       <motion.button
                         key={item.path}
                         onClick={() => handleMenuClick(item.path)}
-                        className="w-full px-4 py-3 text-left font-mono text-xs text-white/60 
+                        className="w-full px-4 py-3 text-left font-mono text-xs text-white/50 
                                  hover:bg-white/5 hover:text-white transition-all duration-200
                                  border-b border-white/5 last:border-b-0 group"
                         whileHover={{ x: 4 }}
@@ -106,17 +106,17 @@ export default function Header({ onContactClick }: HeaderProps) {
               </AnimatePresence>
             </div>
 
-            {/* Contact Button - Permanent */}
+            {/* Contact Button - Strict Style */}
             <motion.button
               onClick={onContactClick}
               className="flex items-center gap-2 px-4 py-2.5
-                       bg-cyan-500/20 border border-cyan-500/50 rounded-lg
-                       hover:bg-cyan-500/30 hover:border-cyan-500/70
-                       transition-all duration-200 font-mono text-xs text-cyan-400"
+                       border border-white/20 
+                       hover:bg-white/10 hover:border-white/30
+                       transition-all duration-200 font-mono text-xs text-white/70 hover:text-white"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <MessageCircle size={14} />
+              <Mail size={14} />
               <span>{language === 'ru' ? 'Связаться' : 'Contact'}</span>
             </motion.button>
           </div>
@@ -139,7 +139,7 @@ export default function Header({ onContactClick }: HeaderProps) {
             <div className="relative" ref={languageMenuRef}>
               <motion.button
                 onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
-                className="p-2.5 border border-white/10 text-white/60 rounded-lg
+                className="p-2.5 border border-white/10 text-white/50 
                          hover:text-white hover:border-white/30 transition-all duration-200"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -155,7 +155,7 @@ export default function Header({ onContactClick }: HeaderProps) {
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                     className="absolute top-full right-0 mt-2 bg-black/90 backdrop-blur-xl border border-white/10 
-                             min-w-[100px] z-50 overflow-hidden rounded-lg"
+                             min-w-[100px] z-50 overflow-hidden"
                   >
                     {languages.map((lang) => (
                       <motion.button
@@ -168,7 +168,7 @@ export default function Header({ onContactClick }: HeaderProps) {
                                  border-b border-white/5 last:border-b-0
                                  ${language === lang
                             ? 'bg-white/10 text-white'
-                            : 'text-white/60 hover:bg-white/5 hover:text-white'
+                            : 'text-white/50 hover:bg-white/5 hover:text-white'
                           }`}
                         whileHover={{ x: 2 }}
                       >
