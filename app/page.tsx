@@ -12,12 +12,14 @@ import {
   Cpu,
   ChevronLeft
 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/layout/Header';
+import ContactModal from '@/components/modals/ContactModal';
+import FloatingContactButton from '@/components/FloatingContactButton';
 import AboutSection from '@/components/sections/AboutSection';
 import ProcessRoadmap from '@/components/sections/ProcessRoadmap';
 import { ProjectsGrid } from '@/components/sections/ProjectCards';
 import { useI18n } from '@/lib/i18n/context';
-import { useState, useEffect } from 'react';
 
 const fashionImages = [
   '/gallery/photo_2026-01-30_12-26-56.jpg',
@@ -117,6 +119,7 @@ function ImageCarousel({ images }: { images: string[] }) {
 export default function GalleryPage() {
   const { t, language } = useI18n();
   const [activeProject, setActiveProject] = useState<string | null>(null);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   const videoShowcase = [
     {
@@ -207,7 +210,8 @@ export default function GalleryPage() {
       {/* Subtle gradient overlay for depth */}
       <div className="fixed inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30 pointer-events-none" />
 
-      <Header />
+      <Header onContactClick={() => setIsContactOpen(true)} />
+      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
 
       <main className="relative z-10 pt-24 pb-24">
         {/* About section - Main entry */}
@@ -444,6 +448,9 @@ export default function GalleryPage() {
           </div>
         </section>
       </main>
+      
+      {/* Floating Contact Button */}
+      <FloatingContactButton onClick={() => setIsContactOpen(true)} />
     </div>
   );
 }
