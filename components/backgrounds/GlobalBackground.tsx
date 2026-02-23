@@ -1,8 +1,8 @@
 "use client";
 
-import OilFlowBackground from './OilFlowBackground';
+import OilWaveBackground from './OilWaveBackground';
 
 export default function GlobalBackground() {
-  // Clean oil flow background - lightweight and performant
-  return <OilFlowBackground />;
+  // Vector wave oil background - CSS/SVG based for smooth animation
+  return <OilWaveBackground />;
 }

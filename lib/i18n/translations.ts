@@ -94,14 +94,14 @@ export const translations: Record<Language, Translations> = {
         description: 'Development of web and mobile applications, blockchain solutions and complex IT ecosystems for business',
       },
       fashion: {
-        accent: 'Parametric Design',
-        title: 'Fashion & Wearables',
-        description: 'Parametric fashion design and conceptual clothing created using algorithmic modeling methods',
+        accent: 'Design',
+        title: 'Fashion',
+        description: 'Designer clothing collection combining Central Asian culture with the freedom of modern urban style',
       },
       architecture: {
-        accent: 'Spatial Design',
+        accent: 'Space',
         title: 'Architecture',
-        description: 'Parametric architecture and interior design projects using computational design methods',
+        description: '',
       },
       video: {
         title: 'Video & CGI',
@@ -172,14 +172,14 @@ export const translations: Record<Language, Translations> = {
         description: 'Разработка веб и мобильных приложений, блокчейн-решений и сложных IT-экосистем для бизнеса',
       },
       fashion: {
-        accent: 'Параметрический дизайн',
-        title: 'Мода и носимые устройства',
-        description: 'Параметрический дизайн одежды и концептуальные наряды, созданные методами алгоритмического моделирования',
+        accent: 'Дизайн',
+        title: 'Мода',
+        description: 'Коллекция дизайнерской одежды сочетания культуры Средней Азии и свободы современного урбана',
       },
       architecture: {
-        accent: 'Пространственный дизайн',
+        accent: 'Пространство',
         title: 'Архитектура',
-        description: 'Проекты параметрической архитектуры и дизайна интерьеров с использованием методов вычислительного дизайна',
+        description: '',
       },
       video: {
         title: 'Видео и CGI',

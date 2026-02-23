@@ -232,7 +232,7 @@ export default function AboutSection() {
           transition={{ delay: 0.5 }}
         >
           <p className="font-mono text-xs text-white/30 tracking-[0.3em] uppercase">
-            {language === 'ru' ? 'Системы • Бренды • Среды' : 'Systems • Brands • Environments'}
+            {language === 'ru' ? 'галерея кейсов' : 'case gallery'}
           </p>
         </motion.div>
       </div>
