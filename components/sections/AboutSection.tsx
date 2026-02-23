@@ -9,7 +9,7 @@ export default function AboutSection() {
   return (
     <section id="about" className="relative min-h-screen flex items-center overflow-hidden">
       <div className="w-full grid grid-cols-12 min-h-screen">
-        {/* Left Photo - Attached to left edge, fade on right side only */}
+        {/* Left Photo - Attached to left edge, fade on right/top/bottom */}
         <motion.div 
           className="hidden lg:block lg:col-span-2 relative"
           initial={{ opacity: 0 }}
@@ -20,8 +20,8 @@ export default function AboutSection() {
             className="absolute left-0 top-1/2 -translate-y-1/2 w-full max-w-[200px] h-[70vh] bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
             style={{
               backgroundImage: `url('/photo/слева.png')`,
-              maskImage: 'linear-gradient(to right, black 0%, black 70%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to right, black 0%, black 70%, transparent 100%)',
+              maskImage: 'linear-gradient(to right, black 0%, black 60%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, black 0%, black 60%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
             }}
           />
         </motion.div>
@@ -64,7 +64,7 @@ export default function AboutSection() {
           </p>
         </motion.div>
 
-        {/* Right Photo - Attached to right edge, fade on left side only */}
+        {/* Right Photo - Attached to right edge, fade on left/top/bottom */}
         <motion.div 
           className="hidden lg:block lg:col-span-2 relative"
           initial={{ opacity: 0 }}
@@ -75,8 +75,8 @@ export default function AboutSection() {
             className="absolute right-0 top-1/2 -translate-y-1/2 w-full max-w-[200px] h-[70vh] bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
             style={{
               backgroundImage: `url('/photo/справа.png')`,
-              maskImage: 'linear-gradient(to left, black 0%, black 70%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to left, black 0%, black 70%, transparent 100%)',
+              maskImage: 'linear-gradient(to left, black 0%, black 60%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to left, black 0%, black 60%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
             }}
           />
         </motion.div>
