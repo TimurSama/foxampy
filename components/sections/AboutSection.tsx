@@ -8,26 +8,31 @@ export default function AboutSection() {
   const { language } = useI18n();
 
   return (
-    <section id="about" className="relative min-h-screen flex items-center">
-      <div className="w-full grid grid-cols-1 lg:grid-cols-12 min-h-screen">
-        {/* Left Photo - Edge to edge */}
+    <section id="about" className="relative min-h-screen flex items-center overflow-hidden">
+      <div className="w-full grid grid-cols-12 min-h-screen">
+        {/* Left Photo - Smaller with fade mask */}
         <motion.div 
-          className="hidden lg:block lg:col-span-3 relative overflow-hidden"
-          initial={{ opacity: 0, x: -50 }}
+          className="hidden lg:flex lg:col-span-2 items-center justify-end relative"
+          initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#030303] z-10" />
-          <img 
-            src="/photo/слева.png" 
-            alt="foxampy" 
-            className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700"
-          />
+          <div className="relative w-full max-w-[180px] h-[60vh]">
+            {/* Photo with mask fade */}
+            <div 
+              className="absolute inset-0 bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
+              style={{
+                backgroundImage: `url('/photo/слева.png')`,
+                maskImage: 'linear-gradient(to right, transparent 0%, black 30%, black 70%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 30%, black 70%, transparent 100%)',
+              }}
+            />
+          </div>
         </motion.div>
 
-        {/* Center Content */}
+        {/* Center Content - Wider */}
         <motion.div 
-          className="col-span-1 lg:col-span-6 flex flex-col items-center justify-center px-6 py-20 lg:py-0 relative z-20"
+          className="col-span-12 lg:col-span-8 flex flex-col items-center justify-center px-6 py-20 lg:py-0 relative z-20"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -68,47 +73,29 @@ export default function AboutSection() {
           </div>
         </motion.div>
 
-        {/* Right Photo - Edge to edge */}
+        {/* Right Photo - Smaller with fade mask */}
         <motion.div 
-          className="hidden lg:block lg:col-span-3 relative overflow-hidden"
-          initial={{ opacity: 0, x: 50 }}
+          className="hidden lg:flex lg:col-span-2 items-center justify-start relative"
+          initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-[#030303] z-10" />
-          <img 
-            src="/photo/справа.png" 
-            alt="foxampy" 
-            className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700"
-          />
+          <div className="relative w-full max-w-[180px] h-[60vh]">
+            {/* Photo with mask fade */}
+            <div 
+              className="absolute inset-0 bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
+              style={{
+                backgroundImage: `url('/photo/справа.png')`,
+                maskImage: 'linear-gradient(to left, transparent 0%, black 30%, black 70%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to left, transparent 0%, black 30%, black 70%, transparent 100%)',
+              }}
+            />
+          </div>
         </motion.div>
 
-        {/* Mobile Photos - Stacked */}
-        <div className="lg:hidden grid grid-cols-2 gap-4 px-4 pb-8">
-          <motion.div 
-            className="aspect-[3/4] overflow-hidden rounded-sm"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <img 
-              src="/photo/слева.png" 
-              alt="foxampy" 
-              className="w-full h-full object-cover grayscale"
-            />
-          </motion.div>
-          <motion.div 
-            className="aspect-[3/4] overflow-hidden rounded-sm"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            <img 
-              src="/photo/справа.png" 
-              alt="foxampy" 
-              className="w-full h-full object-cover grayscale"
-            />
-          </motion.div>
+        {/* Mobile Photos - Hidden on mobile for cleaner look */}
+        <div className="lg:hidden hidden">
+          {/* Mobile layout simplified */}
         </div>
       </div>
     </section>

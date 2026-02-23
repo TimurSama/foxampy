@@ -476,3 +476,14 @@ body {
     display: none !important;
   }
 }
+
+/* Photo fade masks */
+.photo-fade-left {
+  mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
+}
+
+.photo-fade-right {
+  mask-image: linear-gradient(to left, transparent 0%, black 25%, black 75%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, transparent 0%, black 25%, black 75%, transparent 100%);
+}
