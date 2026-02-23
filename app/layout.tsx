@@ -32,6 +32,10 @@ export default function RootLayout({
     <html lang="ru">
       <head>
         <meta name="version" content="1.0.0" />
+        <meta 
+          httpEquiv="Content-Security-Policy" 
+          content="default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; connect-src 'self';"
+        />
       </head>
       <body className="antialiased">
         <I18nProvider>

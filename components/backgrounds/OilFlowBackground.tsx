@@ -2,98 +2,76 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 
-interface Particle {
+interface Blob {
   x: number;
   y: number;
   vx: number;
   vy: number;
   radius: number;
-  life: number;
-  maxLife: number;
+  color: { r: number; g: number; b: number };
+  pulse: number;
+  pulseSpeed: number;
 }
 
 export default function OilFlowBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef({ x: 0, y: 0, active: false });
-  const particlesRef = useRef<Particle[]>([]);
+  const mouseRef = useRef({ x: 0, y: 0 });
+  const blobsRef = useRef<Blob[]>([]);
   const rafRef = useRef<number>();
-  const [isVisible, setIsVisible] = useState(true);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
-  // Check for reduced motion preference
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
+  const createBlob = useCallback((x: number, y: number): Blob => {
+    // Oil colors: dark grays with subtle blue/purple undertones
+    const oilColors = [
+      { r: 35, g: 35, b: 40 },    // Dark slate
+      { r: 30, g: 30, b: 35 },    // Darker
+      { r: 40, g: 38, b: 45 },    // Slight purple
+      { r: 25, g: 28, b: 35 },    // Blue-gray
+      { r: 45, g: 42, b: 48 },    // Lighter oil
+    ];
     
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches);
+    return {
+      x,
+      y,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      radius: Math.random() * 150 + 100,
+      color: oilColors[Math.floor(Math.random() * oilColors.length)],
+      pulse: Math.random() * Math.PI * 2,
+      pulseSpeed: 0.005 + Math.random() * 0.01
     };
-    
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  // Visibility observer
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0 }
-    );
+    // Initialize blobs after mount
+    const blobs: Blob[] = [];
+    const width = typeof window !== 'undefined' ? window.innerWidth : 1920;
+    const height = typeof window !== 'undefined' ? window.innerHeight : 1080;
     
-    if (canvasRef.current) {
-      observer.observe(canvasRef.current);
-    }
-    
-    return () => observer.disconnect();
-  }, []);
-
-  const createParticle = useCallback((x: number, y: number): Particle => ({
-    x,
-    y,
-    vx: (Math.random() - 0.5) * 0.5,
-    vy: (Math.random() - 0.5) * 0.5,
-    radius: Math.random() * 80 + 40,
-    life: 0,
-    maxLife: Math.random() * 200 + 100
-  }), []);
-
-  // Initialize particles
-  useEffect(() => {
-    const particles: Particle[] = [];
-    for (let i = 0; i < 8; i++) {
-      particles.push(createParticle(
-        Math.random() * window.innerWidth,
-        Math.random() * window.innerHeight
+    for (let i = 0; i < 6; i++) {
+      blobs.push(createBlob(
+        Math.random() * width,
+        Math.random() * height
       ));
     }
-    particlesRef.current = particles;
-  }, [createParticle]);
+    blobsRef.current = blobs;
+    setIsReady(true);
+  }, [createBlob]);
 
-  // Mouse tracking
   useEffect(() => {
-    if (prefersReducedMotion) return;
+    if (!isReady) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY, active: true };
-    };
-
-    const handleMouseLeave = () => {
-      mouseRef.current.active = false;
+      mouseRef.current = { x: e.clientX, y: e.clientY };
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    window.addEventListener('mouseleave', handleMouseLeave);
-    
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseleave', handleMouseLeave);
-    };
-  }, [prefersReducedMotion]);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [isReady]);
 
-  // Animation loop
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || prefersReducedMotion) return;
+    if (!canvas || !isReady) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -106,89 +84,102 @@ export default function OilFlowBackground() {
     window.addEventListener('resize', resize);
 
     let frameCount = 0;
+    
     const animate = () => {
-      if (!isVisible) {
-        rafRef.current = requestAnimationFrame(animate);
-        return;
-      }
-
       frameCount++;
-      // Render every 2nd frame for performance (30fps)
-      if (frameCount % 2 !== 0) {
-        rafRef.current = requestAnimationFrame(animate);
-        return;
-      }
-
-      ctx.fillStyle = 'rgba(3, 3, 3, 0.15)';
+      
+      // Clear with base color
+      ctx.fillStyle = '#030303';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      const particles = particlesRef.current;
+      const blobs = blobsRef.current;
       const mouse = mouseRef.current;
 
-      // Update and draw particles
-      particles.forEach((p, i) => {
-        // Mouse interaction
-        if (mouse.active) {
-          const dx = mouse.x - p.x;
-          const dy = mouse.y - p.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 300) {
-            const force = (300 - dist) / 300 * 0.02;
-            p.vx += dx * force * 0.01;
-            p.vy += dy * force * 0.01;
-          }
+      // Sort blobs by size for proper layering
+      blobs.sort((a, b) => a.radius - b.radius);
+
+      blobs.forEach((blob, i) => {
+        // Mouse interaction - gentle repulsion
+        const dx = blob.x - mouse.x;
+        const dy = blob.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < 400 && dist > 0) {
+          const force = (400 - dist) / 400 * 0.02;
+          blob.vx += (dx / dist) * force;
+          blob.vy += (dy / dist) * force;
         }
 
         // Apply velocity with damping
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vx *= 0.99;
-        p.vy *= 0.99;
+        blob.x += blob.vx;
+        blob.y += blob.vy;
+        blob.vx *= 0.995;
+        blob.vy *= 0.995;
 
-        // Subtle drift
-        p.vx += Math.sin(p.life * 0.01 + i) * 0.02;
-        p.vy += Math.cos(p.life * 0.01 + i) * 0.02;
+        // Very subtle drift movement
+        blob.vx += Math.sin(frameCount * 0.001 + i) * 0.002;
+        blob.vy += Math.cos(frameCount * 0.001 + i * 1.5) * 0.002;
 
-        // Boundary wrap
-        if (p.x < -p.radius) p.x = canvas.width + p.radius;
-        if (p.x > canvas.width + p.radius) p.x = -p.radius;
-        if (p.y < -p.radius) p.y = canvas.height + p.radius;
-        if (p.y > canvas.height + p.radius) p.y = -p.radius;
+        // Wrap around edges
+        if (blob.x < -blob.radius) blob.x = canvas.width + blob.radius;
+        if (blob.x > canvas.width + blob.radius) blob.x = -blob.radius;
+        if (blob.y < -blob.radius) blob.y = canvas.height + blob.radius;
+        if (blob.y > canvas.height + blob.radius) blob.y = -blob.radius;
 
-        p.life++;
+        // Pulse effect
+        blob.pulse += blob.pulseSpeed;
+        const pulseFactor = 1 + Math.sin(blob.pulse) * 0.1;
+        const currentRadius = blob.radius * pulseFactor;
 
-        // Draw oil blob
-        const opacity = Math.sin((p.life / p.maxLife) * Math.PI) * 0.4;
-        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
-        gradient.addColorStop(0, `rgba(25, 25, 30, ${opacity})`);
-        gradient.addColorStop(0.4, `rgba(15, 15, 20, ${opacity * 0.6})`);
+        // Draw oil blob with gradient
+        const gradient = ctx.createRadialGradient(
+          blob.x, blob.y, 0,
+          blob.x, blob.y, currentRadius
+        );
+        
+        const { r, g, b } = blob.color;
+        // More visible oil colors
+        gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, 0.5)`);
+        gradient.addColorStop(0.3, `rgba(${r * 0.8}, ${g * 0.8}, ${b * 0.9}, 0.35)`);
+        gradient.addColorStop(0.6, `rgba(${r * 0.6}, ${g * 0.6}, ${b * 0.7}, 0.15)`);
         gradient.addColorStop(1, 'rgba(3, 3, 3, 0)');
 
         ctx.beginPath();
         ctx.fillStyle = gradient;
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.arc(blob.x, blob.y, currentRadius, 0, Math.PI * 2);
         ctx.fill();
 
-        // Reset particle if lifetime exceeded
-        if (p.life > p.maxLife) {
-          p.life = 0;
-          p.x = Math.random() * canvas.width;
-          p.y = Math.random() * canvas.height;
-        }
+        // Add subtle highlight for oil sheen effect
+        const shineGradient = ctx.createRadialGradient(
+          blob.x - currentRadius * 0.3, 
+          blob.y - currentRadius * 0.3, 
+          0,
+          blob.x - currentRadius * 0.3, 
+          blob.y - currentRadius * 0.3, 
+          currentRadius * 0.4
+        );
+        shineGradient.addColorStop(0, 'rgba(255, 255, 255, 0.03)');
+        shineGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.01)');
+        shineGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        
+        ctx.beginPath();
+        ctx.fillStyle = shineGradient;
+        ctx.arc(blob.x, blob.y, currentRadius, 0, Math.PI * 2);
+        ctx.fill();
       });
 
-      // Draw connections between nearby particles
-      ctx.strokeStyle = 'rgba(30, 30, 35, 0.1)';
+      // Draw subtle connections between close blobs
+      ctx.strokeStyle = 'rgba(60, 60, 70, 0.08)';
       ctx.lineWidth = 1;
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
+      for (let i = 0; i < blobs.length; i++) {
+        for (let j = i + 1; j < blobs.length; j++) {
+          const dx = blobs[i].x - blobs[j].x;
+          const dy = blobs[i].y - blobs[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 200) {
+          if (dist < 250) {
             ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.moveTo(blobs[i].x, blobs[i].y);
+            ctx.lineTo(blobs[j].x, blobs[j].y);
             ctx.stroke();
           }
         }
@@ -203,31 +194,25 @@ export default function OilFlowBackground() {
       window.removeEventListener('resize', resize);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [isVisible, prefersReducedMotion]);
-
-  if (prefersReducedMotion) {
-    return (
-      <div className="fixed inset-0 -z-10 bg-[#030303]">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#050505] to-[#030303]" />
-      </div>
-    );
-  }
+  }, [isReady]);
 
   return (
-    <div className="fixed inset-0 -z-10 bg-[#030303] overflow-hidden">
+    <div className="fixed inset-0 -z-10 overflow-hidden" style={{ background: '#030303' }}>
       <canvas
         ref={canvasRef}
-        className="absolute inset-0"
+        className="absolute inset-0 w-full h-full"
         style={{ 
-          filter: 'blur(40px)',
-          transform: 'translate3d(0, 0, 0)'
+          filter: 'blur(60px)',
+          transform: 'translate3d(0, 0, 0)',
+          opacity: isReady ? 1 : 0,
+          transition: 'opacity 0.5s ease'
         }}
       />
-      {/* Subtle vignette overlay */}
+      {/* Vignette overlay */}
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(0,0,0,0.6) 100%)'
+          background: 'radial-gradient(ellipse at center, transparent 0%, transparent 40%, rgba(0,0,0,0.5) 100%)'
         }}
       />
     </div>
