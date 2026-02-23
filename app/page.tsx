@@ -216,26 +216,6 @@ export default function GalleryPage() {
         {/* Process Roadmap */}
         <ProcessRoadmap />
 
-        {/* Projects */}
-        <section id="projects" className="px-4 py-16 md:py-24">
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-2xl md:text-3xl font-mono text-white mb-3">
-                {language === 'ru' ? 'Проекты' : 'Projects'}
-              </h2>
-              <p className="text-xs text-white/30 font-mono tracking-[0.2em] uppercase">
-                {language === 'ru' ? 'открыто для инвестиций' : 'open for investment'}
-              </p>
-            </motion.div>
-            <ProjectsGrid language={language} />
-          </div>
-        </section>
-
         {/* Video showcase */}
         <section id="video" className="px-4 mb-32">
           <div className="max-w-6xl mx-auto space-y-6">
@@ -274,8 +254,8 @@ export default function GalleryPage() {
                       controls
                       muted
                       playsInline
-                      loop
-                      preload="metadata"
+                      preload="none"
+                      loading="lazy"
                       className="w-full h-full object-contain"
                     />
                   </div>
@@ -444,6 +424,26 @@ export default function GalleryPage() {
             </motion.div>
           </div>
         </footer>
+
+        {/* Projects */}
+        <section id="projects" className="px-4 py-16 md:py-24">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <h2 className="text-2xl md:text-3xl font-mono text-white mb-3">
+                {language === 'ru' ? 'Проекты' : 'Projects'}
+              </h2>
+              <p className="text-xs text-white/30 font-mono tracking-[0.2em] uppercase">
+                {language === 'ru' ? 'личные разработки' : 'personal projects'}
+              </p>
+            </motion.div>
+            <ProjectsGrid language={language} />
+          </div>
+        </section>
       </main>
     </div>
   );

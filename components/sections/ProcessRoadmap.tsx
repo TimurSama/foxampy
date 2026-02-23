@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { useI18n } from '@/lib/i18n/context';
-import { useState } from 'react';
 import { 
   Search,
   Lightbulb,
@@ -23,7 +22,6 @@ interface Stage {
 
 export default function ProcessRoadmap() {
   const { language } = useI18n();
-  const [hoveredStage, setHoveredStage] = useState<string | null>(null);
 
   const stages: Stage[] = [
     {
@@ -88,48 +86,17 @@ export default function ProcessRoadmap() {
     }
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" }
-    }
-  };
-
-  const StageCard = ({ stage }: { stage: Stage }) => (
+  const StageCard = ({ stage, index }: { stage: Stage; index: number }) => (
     <motion.div
       className="relative group"
-      variants={itemVariants}
-      onMouseEnter={() => setHoveredStage(stage.id)}
-      onMouseLeave={() => setHoveredStage(null)}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ delay: index * 0.08, duration: 0.4 }}
     >
-      <motion.div
-        className="relative p-6 bg-white/[0.02] border border-white/[0.08] rounded-sm cursor-pointer overflow-hidden h-full"
-        whileHover={{ 
-          backgroundColor: 'rgba(255,255,255,0.04)',
-          borderColor: 'rgba(255,255,255,0.2)',
-        }}
-        transition={{ duration: 0.3 }}
-      >
-        {/* Background glow on hover */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: hoveredStage === stage.id ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-        />
+      <div className="relative p-6 bg-white/[0.02] border border-white/[0.08] rounded-sm cursor-pointer overflow-hidden h-full transition-all duration-300 hover:bg-white/[0.04] hover:border-white/20">
+        {/* Background glow on hover - CSS only */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
         {/* Number - large background */}
         <div className="absolute top-2 right-3 font-mono text-5xl text-white/[0.03] select-none">
@@ -137,17 +104,10 @@ export default function ProcessRoadmap() {
         </div>
 
         <div className="relative z-10">
-          {/* Icon */}
-          <motion.div 
-            className="w-11 h-11 mb-5 flex items-center justify-center text-white/40 border border-white/10 bg-white/[0.03]"
-            animate={{ 
-              borderColor: hoveredStage === stage.id ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.1)',
-              color: hoveredStage === stage.id ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.4)'
-            }}
-            transition={{ duration: 0.2 }}
-          >
+          {/* Icon - CSS hover */}
+          <div className="w-11 h-11 mb-5 flex items-center justify-center text-white/40 border border-white/10 bg-white/[0.03] transition-all duration-200 group-hover:border-white/25 group-hover:text-white/90">
             {stage.icon}
-          </motion.div>
+          </div>
 
           {/* Number - small */}
           <div className="font-mono text-[10px] text-white/30 mb-2 tracking-wider">
@@ -155,35 +115,26 @@ export default function ProcessRoadmap() {
           </div>
 
           {/* Title */}
-          <h3 className="font-mono text-sm text-white mb-1.5 group-hover:text-white/90 transition-colors">
+          <h3 className="font-mono text-sm text-white mb-1.5 group-hover:text-white/90 transition-colors duration-200">
             {stage.title}
           </h3>
           
           {/* Subtitle */}
-          <p className="text-[11px] text-white/35 mb-4 group-hover:text-white/50 transition-colors">
+          <p className="text-[11px] text-white/35 mb-4 group-hover:text-white/50 transition-colors duration-200">
             {stage.subtitle}
           </p>
 
-          {/* Description - fade in on hover */}
-          <motion.p
-            className="text-xs text-white/45 leading-relaxed"
-            initial={{ opacity: 0.6 }}
-            animate={{ opacity: hoveredStage === stage.id ? 1 : 0.6 }}
-          >
+          {/* Description - CSS hover opacity */}
+          <p className="text-xs text-white/45 leading-relaxed transition-opacity duration-200 group-hover:opacity-90">
             {stage.description}
-          </motion.p>
+          </p>
         </div>
 
-        {/* Corner accent */}
-        <motion.div 
-          className="absolute bottom-0 right-0 w-12 h-12"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: hoveredStage === stage.id ? 1 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
+        {/* Corner accent - CSS hover */}
+        <div className="absolute bottom-0 right-0 w-12 h-12 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <div className="absolute bottom-3 right-3 w-1.5 h-1.5 bg-white/30 rounded-full" />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </motion.div>
   );
 
@@ -195,6 +146,7 @@ export default function ProcessRoadmap() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5 }}
           className="text-center mb-16 md:mb-20"
         >
           <h2 className="text-2xl md:text-3xl font-mono text-white mb-3">
@@ -206,33 +158,27 @@ export default function ProcessRoadmap() {
         </motion.div>
 
         {/* Snake Layout - Staggered Grid */}
-        <motion.div 
-          className="space-y-4 md:space-y-0"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
+        <div className="space-y-4 md:space-y-0">
           {/* Row 1: 01 02 03 - standard */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            <StageCard stage={stages[0]} />
-            <StageCard stage={stages[1]} />
-            <StageCard stage={stages[2]} />
+            <StageCard stage={stages[0]} index={0} />
+            <StageCard stage={stages[1]} index={1} />
+            <StageCard stage={stages[2]} index={2} />
           </div>
 
           {/* Row 2: 06 05 04 - reversed (snake pattern) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             <div className="md:order-3">
-              <StageCard stage={stages[5]} />
+              <StageCard stage={stages[5]} index={3} />
             </div>
             <div className="md:order-2">
-              <StageCard stage={stages[4]} />
+              <StageCard stage={stages[4]} index={4} />
             </div>
             <div className="md:order-1">
-              <StageCard stage={stages[3]} />
+              <StageCard stage={stages[3]} index={5} />
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
