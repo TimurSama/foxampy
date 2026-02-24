@@ -7,6 +7,7 @@ import Image from 'next/image';
 
 interface Company {
   id: string;
+  logoName: string;
   url: string;
   role: string;
   roleEn: string;
@@ -21,6 +22,7 @@ export default function ExperienceSection() {
   const companies: Company[] = [
     {
       id: 'done',
+      logoName: 'Done.png',
       url: 'https://done.co.il',
       role: 'Brand & Creative Lead',
       roleEn: 'Brand & Creative Lead',
@@ -39,6 +41,7 @@ export default function ExperienceSection() {
     },
     {
       id: 'unicap',
+      logoName: 'UNICAP.png',
       url: 'https://unicap.invest.org',
       role: 'Creative Director',
       roleEn: 'Creative Director',
@@ -55,6 +58,7 @@ export default function ExperienceSection() {
     },
     {
       id: 'culligan',
+      logoName: 'Culligan.png',
       url: 'https://www.culligan.com',
       role: 'Marketing Specialist',
       roleEn: 'Marketing Specialist',
@@ -71,6 +75,7 @@ export default function ExperienceSection() {
     },
     {
       id: 'realting',
+      logoName: 'Realting.png',
       url: 'https://realting.uz',
       role: 'Product & Research Lead',
       roleEn: 'Product & Research Lead',
@@ -137,20 +142,17 @@ export default function ExperienceSection() {
                   {/* Company Header */}
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
-                      {/* Company Logo - Fixed aspect ratio */}
-                      <div className="relative mb-2" style={{ width: 'auto', height: '28px', display: 'inline-block' }}>
+                      {/* Company Logo */}
+                      <div className="h-8 md:h-10 relative w-auto flex items-center">
                         <Image
-                          src={`/companys/${company.id}.png`}
+                          src={`/companys/${company.logoName}`}
                           alt={company.id}
-                          width={120}
-                          height={28}
-                          className="object-contain brightness-100 group-hover:brightness-110 transition-all duration-300"
-                          style={{ filter: 'grayscale(100%) brightness(200%)', height: '28px', width: 'auto' }}
+                          width={140}
+                          height={36}
+                          className="object-contain object-left brightness-100 group-hover:brightness-110 transition-all duration-300 max-h-8 md:max-h-10 w-auto"
+                          style={{ filter: 'grayscale(100%) brightness(200%)' }}
                         />
                       </div>
-                      <p className="font-mono text-xs text-cyan-400/70 mt-1">
-                        {isRussian ? company.role : company.roleEn}
-                      </p>
                     </div>
                     <a
                       href={company.url}

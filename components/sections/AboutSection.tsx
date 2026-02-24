@@ -9,10 +9,10 @@ export default function AboutSection() {
   return (
     <section id="about" className="relative min-h-screen lg:flex lg:items-center overflow-hidden">
       {/* Mobile: Photo bottom-left, text top-right */}
-      <div className="lg:hidden relative h-[calc(100vh-64px)]">
+      <div className="lg:hidden relative min-h-screen pt-16">
         {/* Photo - Smaller at bottom-left */}
         <motion.div 
-          className="absolute left-0 bottom-0 h-[45vh] w-[50vw]"
+          className="absolute left-0 bottom-0 h-[40vh] w-[45vw]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -31,7 +31,7 @@ export default function AboutSection() {
 
         {/* Text Content - Top-right, higher position */}
         <motion.div 
-          className="absolute top-12 right-6 left-6 flex flex-col items-end z-20"
+          className="absolute top-20 right-6 left-6 flex flex-col items-end z-20"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}

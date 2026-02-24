@@ -12,15 +12,15 @@ interface I18nContextType {
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>('ru');
+  const [language, setLanguageState] = useState<Language>('en');
 
   useEffect(() => {
     const saved = localStorage.getItem('language') as Language | null;
     if (saved && translations[saved]) {
       setLanguageState(saved);
     } else {
-      setLanguageState('ru');
-      localStorage.setItem('language', 'ru');
+      setLanguageState('en');
+      localStorage.setItem('language', 'en');
     }
   }, []);
 
@@ -104,7 +104,7 @@ export function useI18n() {
       }
     };
     return {
-      language: 'ru' as Language,
+      language: 'en' as Language,
       setLanguage: () => { },
       t: defaultT,
     };
