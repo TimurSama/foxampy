@@ -1,17 +1,14 @@
 "use client";
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { useI18n } from '@/lib/i18n/context';
 import { useState } from 'react';
+import { useI18n } from '@/lib/i18n/context';
 import { 
   Search,
   Lightbulb,
   Compass,
   Hammer,
   Rocket,
-  TrendingUp,
-  ChevronDown,
-  X
+  TrendingUp
 } from 'lucide-react';
 
 interface Stage {
@@ -22,17 +19,17 @@ interface Stage {
   description: string;
   details: string[];
   number: string;
-  style: 'neural' | 'organic' | 'geometric' | 'fluid' | 'crystalline' | 'minimal';
 }
 
 export default function ProcessRoadmap() {
   const { language } = useI18n();
-  const [expandedCard, setExpandedCard] = useState<string | null>(null);
+  const [activeCard, setActiveCard] = useState<string | null>(null);
+  const [animatingCard, setAnimatingCard] = useState<string | null>(null);
 
   const stages: Stage[] = [
     {
       id: 'discovery',
-      icon: <Search size={22} />,
+      icon: <Search size={20} />,
       title: language === 'ru' ? 'Исследование' : 'Discovery',
       subtitle: language === 'ru' ? 'Анализ и аудит' : 'Analysis & Audit',
       description: language === 'ru' 
@@ -51,12 +48,11 @@ export default function ProcessRoadmap() {
         'Audit of existing solutions',
         'Hypothesis formation'
       ],
-      number: '01',
-      style: 'neural'
+      number: '01'
     },
     {
       id: 'concept',
-      icon: <Lightbulb size={22} />,
+      icon: <Lightbulb size={20} />,
       title: language === 'ru' ? 'Концепция' : 'Concept',
       subtitle: language === 'ru' ? 'Идея и позиционирование' : 'Idea & Positioning',
       description: language === 'ru'
@@ -75,12 +71,11 @@ export default function ProcessRoadmap() {
         'Creating moodboards',
         'Formulating UVP'
       ],
-      number: '02',
-      style: 'organic'
+      number: '02'
     },
     {
       id: 'design',
-      icon: <Compass size={22} />,
+      icon: <Compass size={20} />,
       title: language === 'ru' ? 'Проектирование' : 'Design',
       subtitle: language === 'ru' ? 'Стратегия и архитектура' : 'Strategy & Architecture',
       description: language === 'ru'
@@ -99,12 +94,11 @@ export default function ProcessRoadmap() {
         'UX/UI prototypes',
         'Visual guidelines'
       ],
-      number: '03',
-      style: 'geometric'
+      number: '03'
     },
     {
       id: 'development',
-      icon: <Hammer size={22} />,
+      icon: <Hammer size={20} />,
       title: language === 'ru' ? 'Разработка' : 'Development',
       subtitle: language === 'ru' ? 'Создание' : 'Creation',
       description: language === 'ru'
@@ -123,12 +117,11 @@ export default function ProcessRoadmap() {
         'System integration',
         'Testing and QA'
       ],
-      number: '04',
-      style: 'fluid'
+      number: '04'
     },
     {
       id: 'launch',
-      icon: <Rocket size={22} />,
+      icon: <Rocket size={20} />,
       title: language === 'ru' ? 'Запуск' : 'Launch',
       subtitle: language === 'ru' ? 'Релиз' : 'Release',
       description: language === 'ru'
@@ -147,12 +140,11 @@ export default function ProcessRoadmap() {
         'Product launch',
         'Feedback collection'
       ],
-      number: '05',
-      style: 'crystalline'
+      number: '05'
     },
     {
       id: 'evolution',
-      icon: <TrendingUp size={22} />,
+      icon: <TrendingUp size={20} />,
       title: language === 'ru' ? 'Развитие' : 'Evolution',
       subtitle: language === 'ru' ? 'Масштабирование' : 'Scaling',
       description: language === 'ru'
@@ -171,199 +163,222 @@ export default function ProcessRoadmap() {
         'New features',
         'Long-term strategy'
       ],
-      number: '06',
-      style: 'minimal'
+      number: '06'
     }
   ];
 
-  const getCardBorderStyles = (style: Stage['style']) => {
-    switch (style) {
-      case 'neural': return 'border-white/[0.15] rounded-2xl';
-      case 'organic': return 'border-white/[0.12] rounded-[2rem]';
-      case 'geometric': return 'border-white/[0.18] rounded-lg';
-      case 'fluid': return 'border-white/[0.1] rounded-[1.5rem_0.5rem]';
-      case 'crystalline': return 'border-white/[0.2] rounded-sm';
-      case 'minimal': return 'border-white/[0.08] rounded-xl';
-      default: return 'border-white/10 rounded-xl';
-    }
-  };
-
-  const getIconContainerStyles = (style: Stage['style']) => {
-    switch (style) {
-      case 'neural': return 'w-12 h-12 rounded-full border border-white/20';
-      case 'organic': return 'w-12 h-12 rounded-2xl border border-white/15';
-      case 'geometric': return 'w-11 h-11 border border-white/25';
-      case 'fluid': return 'w-12 h-12 rounded-full bg-white/[0.05]';
-      case 'crystalline': return 'w-11 h-11 border border-white/30';
-      case 'minimal': return 'w-10 h-10 rounded-lg border border-white/10';
-      default: return 'w-11 h-11 border border-white/20';
-    }
-  };
-
-  const StageCard = ({ stage, index }: { stage: Stage; index: number }) => {
-    const isExpanded = expandedCard === stage.id;
-
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: index * 0.1, duration: 0.5 }}
-        layout
-        className={`relative cursor-pointer border bg-white/[0.02] backdrop-blur-xl
-                    transition-all duration-500 hover:bg-white/[0.04]
-                    ${getCardBorderStyles(stage.style)}
-                    ${isExpanded ? 'bg-white/[0.05]' : ''}
-                   `}
-        onClick={() => setExpandedCard(isExpanded ? null : stage.id)}
-      >
-        {/* Style-specific decorations */}
-        {stage.style === 'neural' && !isExpanded && (
-          <div className="absolute top-3 right-3 w-16 h-16 opacity-20 pointer-events-none">
-            <div className="absolute inset-0 border border-white/30 rounded-full" />
-            <div className="absolute inset-2 border border-white/20 rounded-full" />
-            <div className="absolute inset-4 border border-white/10 rounded-full" />
-          </div>
-        )}
-        {stage.style === 'organic' && (
-          <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-white/[0.03] rounded-full blur-xl pointer-events-none" />
-        )}
-        {stage.style === 'geometric' && !isExpanded && (
-          <div className="absolute top-4 right-4 w-8 h-8 border border-white/20 rotate-45 pointer-events-none" />
-        )}
-        {stage.style === 'fluid' && (
-          <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-white/[0.05] to-transparent pointer-events-none" 
-               style={{ borderRadius: 'inherit' }} />
-        )}
-        {stage.style === 'crystalline' && !isExpanded && (
-          <div className="absolute top-0 right-0 w-0 h-0 border-t-[40px] border-t-white/[0.08] border-l-[40px] border-l-transparent pointer-events-none" />
-        )}
-
-        <div className="relative z-10 p-6">
-          {/* Header - Always visible */}
-          <div className="flex items-start justify-between mb-4">
-            <div className={`flex items-center justify-center text-white/50 ${getIconContainerStyles(stage.style)}`}>
-              {stage.icon}
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-2xl text-white/10">{stage.number}</span>
-              {/* Expand/Collapse indicator */}
-              <motion.div
-                animate={{ rotate: isExpanded ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
-                className="w-8 h-8 flex items-center justify-center rounded-full bg-white/[0.05] border border-white/10"
-              >
-                {isExpanded ? <X size={14} className="text-white/60" /> : <ChevronDown size={14} className="text-white/40" />}
-              </motion.div>
-            </div>
-          </div>
-
-          {/* Basic Content - Always visible */}
-          <div>
-            <h3 className="text-lg md:text-xl font-mono text-white mb-2">
-              {stage.title}
-            </h3>
-            <p className="text-sm text-white/40 mb-3">
-              {stage.subtitle}
-            </p>
-            <p className="text-base text-white/50 leading-relaxed">
-              {stage.description}
-            </p>
-          </div>
-
-          {/* Expanded Content - Details list */}
-          <AnimatePresence>
-            {isExpanded && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="overflow-hidden"
-              >
-                <div className="pt-6 mt-6 border-t border-white/10">
-                  <ul className="space-y-3">
-                    {stage.details.map((detail, idx) => (
-                      <motion.li 
-                        key={idx} 
-                        className="flex items-start gap-3 text-base text-white/60"
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: idx * 0.05 }}
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-white/50 mt-2 flex-shrink-0" />
-                        <span>{detail}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
-
-                  {/* Methodology note */}
-                  <div className="mt-4 pt-4 border-t border-white/10">
-                    <p className="text-xs text-white/30 font-mono uppercase tracking-wider">
-                      {language === 'ru' ? 'Методология' : 'Methodology'}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Click hint - shown when not expanded */}
-          {!isExpanded && (
-            <div className="flex items-center gap-2 text-white/20 mt-4">
-              <span className="text-xs font-mono uppercase tracking-wider">
-                {language === 'ru' ? 'Подробнее' : 'Details'}
-              </span>
-              <div className="w-4 h-px bg-white/20" />
-            </div>
-          )}
-        </div>
-      </motion.div>
-    );
+  const handleCardClick = (stageId: string) => {
+    if (animatingCard) return;
+    
+    setAnimatingCard(stageId);
+    
+    // Переключаем контент в середине анимации
+    setTimeout(() => {
+      setActiveCard(prev => prev === stageId ? null : stageId);
+    }, 150);
+    
+    // Сбрасываем анимацию
+    setTimeout(() => {
+      setAnimatingCard(null);
+    }, 300);
   };
 
   return (
     <section id="process" className="px-4 py-20 md:py-28">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
+        <div className="text-center mb-16">
           <h2 className="text-2xl md:text-3xl font-mono text-white mb-2">
             {language === 'ru' ? 'Полный цикл' : 'Full Cycle'}
           </h2>
           <p className="text-sm text-white/30 font-mono tracking-[0.2em] uppercase">
             {language === 'ru' ? 'от идеи до масштабирования' : 'from idea to scaling'}
           </p>
-        </motion.div>
+        </div>
 
         {/* Grid */}
-        <div className="space-y-6">
-          {/* Row 1 */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <StageCard stage={stages[0]} index={0} />
-            <StageCard stage={stages[1]} index={1} />
-            <StageCard stage={stages[2]} index={2} />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {stages.map((stage) => {
+            const isActive = activeCard === stage.id;
+            const isAnimating = animatingCard === stage.id;
+            
+            return (
+              <div
+                key={stage.id}
+                className="neo-card-container cursor-pointer"
+                onClick={() => handleCardClick(stage.id)}
+              >
+                {/* Внешняя рамка - неоморфизм */}
+                <div className="neo-card-outer">
+                  {/* Средняя рамка */}
+                  <div className="neo-card-middle">
+                    {/* Внутренняя рамка с анимацией */}
+                    <div className={`neo-card-inner ${isAnimating ? 'animate-contract' : ''}`}>
+                      {/* Контент */}
+                      <div className="neo-card-content">
+                        {/* Header с номером и иконкой */}
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="neo-icon">
+                            {stage.icon}
+                          </div>
+                          <span className="font-mono text-xl text-white/20">{stage.number}</span>
+                        </div>
 
-          {/* Row 2 - reversed on desktop */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="md:order-3">
-              <StageCard stage={stages[5]} index={3} />
-            </div>
-            <div className="md:order-2">
-              <StageCard stage={stages[4]} index={4} />
-            </div>
-            <div className="md:order-1">
-              <StageCard stage={stages[3]} index={5} />
-            </div>
-          </div>
+                        {/* Текстовый контент с crossfade */}
+                        <div className="relative min-h-[140px]">
+                          {/* Front content */}
+                          <div className={`neo-text-front ${isActive ? 'opacity-0' : 'opacity-100'}`}>
+                            <h3 className="text-lg font-mono text-white mb-2">
+                              {stage.title}
+                            </h3>
+                            <p className="text-xs text-white/40 mb-3 font-mono uppercase tracking-wider">
+                              {stage.subtitle}
+                            </p>
+                            <p className="text-sm text-white/50 leading-relaxed">
+                              {stage.description}
+                            </p>
+                          </div>
+
+                          {/* Back content - детали */}
+                          <div className={`neo-text-back ${isActive ? 'opacity-100' : 'opacity-0'}`}>
+                            <h3 className="text-lg font-mono text-white mb-3">
+                              {stage.title}
+                            </h3>
+                            <ul className="space-y-2">
+                              {stage.details.map((detail, idx) => (
+                                <li key={idx} className="flex items-start gap-2 text-sm text-white/60">
+                                  <span className="w-1 h-1 bg-white/40 mt-1.5 flex-shrink-0" />
+                                  <span>{detail}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
+
+      <style jsx>{`
+        .neo-card-container {
+          position: relative;
+        }
+
+        .neo-card-outer {
+          background: linear-gradient(145deg, #0a0a0a, #050505);
+          padding: 3px;
+          box-shadow: 
+            8px 8px 16px #020202,
+            -8px -8px 16px #0c0c0c,
+            inset 1px 1px 1px rgba(255,255,255,0.05);
+        }
+
+        .neo-card-middle {
+          background: linear-gradient(145deg, #080808, #040404);
+          padding: 2px;
+          box-shadow: 
+            inset 2px 2px 4px rgba(0,0,0,0.8),
+            inset -2px -2px 4px rgba(255,255,255,0.03);
+        }
+
+        .neo-card-inner {
+          background: #060606;
+          padding: 2px;
+          box-shadow: 
+            inset 1px 1px 2px rgba(0,0,0,0.9),
+            inset -1px -1px 2px rgba(255,255,255,0.02);
+          transition: all 0.15s ease-out;
+        }
+
+        .neo-card-inner.animate-contract {
+          animation: contractRelease 0.3s ease-in-out;
+        }
+
+        @keyframes contractRelease {
+          0% {
+            transform: scale(1);
+            box-shadow: 
+              inset 1px 1px 2px rgba(0,0,0,0.9),
+              inset -1px -1px 2px rgba(255,255,255,0.02);
+          }
+          50% {
+            transform: scale(0.96);
+            box-shadow: 
+              inset 4px 4px 8px rgba(0,0,0,1),
+              inset -4px -4px 8px rgba(255,255,255,0.05);
+          }
+          100% {
+            transform: scale(1);
+            box-shadow: 
+              inset 1px 1px 2px rgba(0,0,0,0.9),
+              inset -1px -1px 2px rgba(255,255,255,0.02);
+          }
+        }
+
+        .neo-card-content {
+          padding: 24px;
+          background: linear-gradient(145deg, #070707, #050505);
+          min-height: 280px;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .neo-icon {
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: rgba(255,255,255,0.5);
+          background: linear-gradient(145deg, #0a0a0a, #060606);
+          box-shadow: 
+            3px 3px 6px #020202,
+            -3px -3px 6px #0e0e0e;
+          border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .neo-text-front,
+        .neo-text-back {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          transition: opacity 0.15s ease-out;
+        }
+
+        .neo-text-front {
+          pointer-events: none;
+        }
+
+        .neo-text-back {
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        .neo-text-back.opacity-100 {
+          pointer-events: auto;
+        }
+
+        /* Hover эффект только на рамку */
+        .neo-card-container:hover .neo-card-outer {
+          box-shadow: 
+            10px 10px 20px #020202,
+            -10px -10px 20px #0e0e0e,
+            inset 1px 1px 1px rgba(255,255,255,0.08);
+        }
+
+        .neo-card-container:hover .neo-icon {
+          box-shadow: 
+            4px 4px 8px #020202,
+            -4px -4px 8px #0f0f0f;
+          color: rgba(255,255,255,0.7);
+        }
+      `}</style>
     </section>
   );
 }
