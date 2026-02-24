@@ -29,7 +29,7 @@ export default function ProcessRoadmap() {
   const stages: Stage[] = [
     {
       id: 'discovery',
-      icon: <Search size={20} />,
+      icon: <Search size={18} />,
       title: language === 'ru' ? 'Исследование' : 'Discovery',
       subtitle: language === 'ru' ? 'Анализ и аудит' : 'Analysis & Audit',
       description: language === 'ru' 
@@ -52,7 +52,7 @@ export default function ProcessRoadmap() {
     },
     {
       id: 'concept',
-      icon: <Lightbulb size={20} />,
+      icon: <Lightbulb size={18} />,
       title: language === 'ru' ? 'Концепция' : 'Concept',
       subtitle: language === 'ru' ? 'Идея и позиционирование' : 'Idea & Positioning',
       description: language === 'ru'
@@ -75,7 +75,7 @@ export default function ProcessRoadmap() {
     },
     {
       id: 'design',
-      icon: <Compass size={20} />,
+      icon: <Compass size={18} />,
       title: language === 'ru' ? 'Проектирование' : 'Design',
       subtitle: language === 'ru' ? 'Стратегия и архитектура' : 'Strategy & Architecture',
       description: language === 'ru'
@@ -98,7 +98,7 @@ export default function ProcessRoadmap() {
     },
     {
       id: 'development',
-      icon: <Hammer size={20} />,
+      icon: <Hammer size={18} />,
       title: language === 'ru' ? 'Разработка' : 'Development',
       subtitle: language === 'ru' ? 'Создание' : 'Creation',
       description: language === 'ru'
@@ -121,7 +121,7 @@ export default function ProcessRoadmap() {
     },
     {
       id: 'launch',
-      icon: <Rocket size={20} />,
+      icon: <Rocket size={18} />,
       title: language === 'ru' ? 'Запуск' : 'Launch',
       subtitle: language === 'ru' ? 'Релиз' : 'Release',
       description: language === 'ru'
@@ -144,7 +144,7 @@ export default function ProcessRoadmap() {
     },
     {
       id: 'evolution',
-      icon: <TrendingUp size={20} />,
+      icon: <TrendingUp size={18} />,
       title: language === 'ru' ? 'Развитие' : 'Evolution',
       subtitle: language === 'ru' ? 'Масштабирование' : 'Scaling',
       description: language === 'ru'
@@ -184,7 +184,7 @@ export default function ProcessRoadmap() {
   return (
     <section id="process" className="px-4 py-20 md:py-28">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 md:mb-16">
           <h2 className="text-2xl md:text-3xl font-mono text-white mb-2">
             {language === 'ru' ? 'Полный цикл' : 'Full Cycle'}
           </h2>
@@ -193,7 +193,8 @@ export default function ProcessRoadmap() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Grid - 2 columns on mobile, 3 on desktop */}
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
           {stages.map((stage) => {
             const isActive = activeCard === stage.id;
             const isAnimating = animatingCard === stage.id;
@@ -209,35 +210,35 @@ export default function ProcessRoadmap() {
                     <div className="card-inner">
                       <div className={`content-frame ${isAnimating ? 'contract' : ''}`}>
                         <div className="card-content">
-                          <div className="flex items-start justify-between mb-4">
+                          <div className="flex items-start justify-between mb-3 md:mb-4">
                             <div className="icon-box">
                               {stage.icon}
                             </div>
-                            <span className="font-mono text-xl text-white/20">{stage.number}</span>
+                            <span className="font-mono text-sm md:text-xl text-white/20">{stage.number}</span>
                           </div>
 
                           <div className="text-container">
                             {!isActive ? (
                               <div className="front-text">
-                                <h3 className="text-lg font-mono text-white mb-2">
+                                <h3 className="text-sm md:text-lg font-mono text-white mb-1 md:mb-2">
                                   {stage.title}
                                 </h3>
-                                <p className="text-xs text-white/40 mb-3 font-mono uppercase tracking-wider">
+                                <p className="text-[10px] md:text-xs text-white/40 mb-2 md:mb-3 font-mono uppercase tracking-wider">
                                   {stage.subtitle}
                                 </p>
-                                <p className="text-sm text-white/50 leading-relaxed">
+                                <p className="text-[10px] md:text-sm text-white/50 leading-relaxed line-clamp-3 md:line-clamp-none">
                                   {stage.description}
                                 </p>
                               </div>
                             ) : (
                               <div className="back-text">
-                                <h3 className="text-lg font-mono text-white mb-3">
+                                <h3 className="text-sm md:text-lg font-mono text-white mb-2 md:mb-3">
                                   {stage.title}
                                 </h3>
-                                <ul className="space-y-2">
+                                <ul className="space-y-1 md:space-y-2">
                                   {stage.details.map((detail, idx) => (
-                                    <li key={idx} className="flex items-start gap-2 text-sm text-white/60">
-                                      <span className="w-1 h-1 bg-white/40 mt-1.5 flex-shrink-0" />
+                                    <li key={idx} className="flex items-start gap-2 text-[10px] md:text-sm text-white/60">
+                                      <span className="w-1 h-1 bg-white/40 mt-1 flex-shrink-0" />
                                       <span>{detail}</span>
                                     </li>
                                   ))}
@@ -259,15 +260,24 @@ export default function ProcessRoadmap() {
       <style jsx>{`
         .card-outer {
           background: #0a0a0a;
-          padding: 4px;
+          padding: 3px;
           box-shadow: 
-            6px 6px 12px #020202,
-            -6px -6px 12px #121212;
+            4px 4px 8px #020202,
+            -4px -4px 8px #121212;
+        }
+
+        @media (min-width: 768px) {
+          .card-outer {
+            padding: 4px;
+            box-shadow: 
+              6px 6px 12px #020202,
+              -6px -6px 12px #121212;
+          }
         }
 
         .card-middle {
           background: #070707;
-          padding: 3px;
+          padding: 2px;
           box-shadow: 
             inset 2px 2px 4px rgba(0,0,0,0.9),
             inset -2px -2px 4px rgba(255,255,255,0.04);
@@ -301,10 +311,10 @@ export default function ProcessRoadmap() {
               inset -2px -2px 4px rgba(255,255,255,0.02);
           }
           50% {
-            padding: 8px;
+            padding: 6px;
             box-shadow: 
-              inset 6px 6px 12px rgba(0,0,0,1),
-              inset -6px -6px 12px rgba(255,255,255,0.06);
+              inset 4px 4px 8px rgba(0,0,0,1),
+              inset -4px -4px 8px rgba(255,255,255,0.06);
           }
           100% {
             padding: 2px;
@@ -314,15 +324,45 @@ export default function ProcessRoadmap() {
           }
         }
 
+        @media (min-width: 768px) {
+          @keyframes contractPulse {
+            0% {
+              padding: 2px;
+              box-shadow: 
+                inset 2px 2px 4px rgba(0,0,0,0.8),
+                inset -2px -2px 4px rgba(255,255,255,0.02);
+            }
+            50% {
+              padding: 8px;
+              box-shadow: 
+                inset 6px 6px 12px rgba(0,0,0,1),
+                inset -6px -6px 12px rgba(255,255,255,0.06);
+            }
+            100% {
+              padding: 2px;
+              box-shadow: 
+                inset 2px 2px 4px rgba(0,0,0,0.8),
+                inset -2px -2px 4px rgba(255,255,255,0.02);
+            }
+          }
+        }
+
         .card-content {
-          padding: 24px;
+          padding: 16px;
           background: #060606;
-          min-height: 260px;
+          min-height: 200px;
+        }
+
+        @media (min-width: 768px) {
+          .card-content {
+            padding: 24px;
+            min-height: 260px;
+          }
         }
 
         .icon-box {
-          width: 40px;
-          height: 40px;
+          width: 32px;
+          height: 32px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -334,13 +374,28 @@ export default function ProcessRoadmap() {
           border: 1px solid rgba(255,255,255,0.06);
         }
 
-        .text-container {
-          min-height: 140px;
+        @media (min-width: 768px) {
+          .icon-box {
+            width: 40px;
+            height: 40px;
+          }
         }
 
-        .front-text,
-        .back-text {
-          animation: none;
+        .text-container {
+          min-height: 120px;
+        }
+
+        @media (min-width: 768px) {
+          .text-container {
+            min-height: 140px;
+          }
+        }
+
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
       `}</style>
     </section>

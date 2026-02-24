@@ -58,7 +58,7 @@ export default function Header({ onContactClick }: HeaderProps) {
     <header className="fixed top-0 left-0 right-0 z-50">
       <div className="mx-4 md:mx-8 mt-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-sm hover:border-white/15 transition-colors duration-300">
         <div className="px-4 md:px-6 py-3 flex items-center justify-between relative">
-          {/* Left - Menu + Contact Button */}
+          {/* Left - Menu */}
           <div className="flex items-center gap-3">
             {/* Burger Menu */}
             <div className="relative" ref={menuRef}>
@@ -106,10 +106,10 @@ export default function Header({ onContactClick }: HeaderProps) {
               </AnimatePresence>
             </div>
 
-            {/* Contact Button - Strict Style */}
+            {/* Contact Button - Desktop only */}
             <motion.button
               onClick={onContactClick}
-              className="flex items-center gap-2 px-4 py-2.5
+              className="hidden md:flex items-center gap-2 px-4 py-2.5
                        border border-white/20 
                        hover:bg-white/10 hover:border-white/30
                        transition-all duration-200 font-mono text-xs text-white/70 hover:text-white"
@@ -134,8 +134,21 @@ export default function Header({ onContactClick }: HeaderProps) {
             </motion.div>
           </div>
 
-          {/* Right - Language Switcher */}
-          <div className="flex items-center">
+          {/* Right - Contact Icon (mobile) + Language Switcher */}
+          <div className="flex items-center gap-2">
+            {/* Contact Button - Mobile only (icon only) */}
+            <motion.button
+              onClick={onContactClick}
+              className="md:hidden p-2.5 border border-white/10 text-white/50 
+                       hover:text-white hover:border-white/30 hover:bg-white/5
+                       transition-all duration-200"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Mail size={16} />
+            </motion.button>
+
+            {/* Language Switcher */}
             <div className="relative" ref={languageMenuRef}>
               <motion.button
                 onClick={() => setLanguageMenuOpen(!languageMenuOpen)}

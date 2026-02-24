@@ -9,7 +9,7 @@ import {
   FlaskConical,
   ChevronRight,
   Monitor,
-  Cpu,
+  Droplets,
   ChevronLeft
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -227,21 +227,25 @@ export default function GalleryPage() {
       projects: [
         {
           id: 'rd-iot',
-          title: t('cases.rd.iot.title'),
-          category: t('cases.rd.iot.category'),
-          description: t('cases.rd.iot.description'),
+          title: language === 'ru' ? 'Прозрачный мониторинг' : 'Transparent Monitoring',
+          category: language === 'ru' ? 'Интегрированный блокчейн в IoT анализа и контроля' : 'Integrated blockchain in IoT analysis and control',
+          description: language === 'ru' 
+            ? 'Разработка единой платформы для подключения и управления IoT-устройствами в инфраструктуре умного города с интеграцией блокчейн-протоколов для обеспечения прозрачности и неизменности данных мониторинга окружающей среды.'
+            : 'Development of a unified platform for connecting and managing IoT devices in smart city infrastructure with blockchain protocol integration to ensure transparency and immutability of environmental monitoring data.',
           solution: '',
           visuals: '',
           icon: <Monitor size={20} />
         },
         {
-          id: 'rd-quantum',
-          title: t('cases.rd.quantum.title'),
-          category: t('cases.rd.quantum.category'),
-          description: t('cases.rd.quantum.description'),
+          id: 'rd-eco-expeditor',
+          title: language === 'ru' ? 'Эко Экспедитор' : 'Eco Expeditor',
+          category: language === 'ru' ? 'Карманный анализатор' : 'Pocket Analyzer',
+          description: language === 'ru'
+            ? 'Разработка портативного мультисенсорного устройства для анализа качества водных источников широкого спектра. Прибор размером с карманное зарядное устройство оснащён цифровыми электродами для измерения pH, растворённого кислорода, электропроводности, турбидности, ОВП, общего содержания растворённых твёрдых веществ и температуры. Система автоматизированного сбора проб с микроконтроллером ESP32 обеспечивает криптографическое хеширование данных SHA-256 и запечатывание в блокчейн-ноды для гарантии неизменности и происхождения данных. Интеграция с DeFi-протоколами позволяет передавать верифицированные экологические данные в Big Data-маркетплейсы с вознаграждением поставщиков данных в нативных токенах экосистемы.'
+            : 'Development of a portable multi-sensor device for analyzing the quality of wide-spectrum water sources. The pocket-sized device features digital electrodes for measuring pH, dissolved oxygen, conductivity, turbidity, ORP, total dissolved solids, and temperature. The automated sampling system with ESP32 microcontroller provides SHA-256 cryptographic data hashing and sealing into blockchain nodes to guarantee data immutability and provenance. Integration with DeFi protocols enables transfer of verified environmental data to Big Data marketplaces with rewards for data providers in ecosystem native tokens.',
           solution: '',
           visuals: '',
-          icon: <Cpu size={20} />
+          icon: <Droplets size={20} />
         },
         {
           id: 'rd-water',
@@ -270,6 +274,25 @@ export default function GalleryPage() {
 
         {/* Process Roadmap */}
         <ProcessRoadmap />
+
+        {/* Gallery Header */}
+        <section className="px-4 mb-12">
+          <div className="max-w-6xl mx-auto">
+            <motion.div 
+              className="text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-2xl md:text-3xl font-mono text-white mb-3">
+                {language === 'ru' ? 'ГАЛЕРЕЯ' : 'GALLERY'}
+              </h2>
+              <p className="text-xs text-white/30 font-mono tracking-[0.2em] uppercase">
+                {language === 'ru' ? 'визуальные работы' : 'visual works'}
+              </p>
+            </motion.div>
+          </div>
+        </section>
 
         {/* Video showcase */}
         <section id="video" className="px-4 mb-32">
@@ -341,26 +364,19 @@ export default function GalleryPage() {
           <div className="max-w-6xl mx-auto space-y-24">
             {gallerySections.map((block) => (
               <div key={block.id} id={block.id} className="space-y-12">
-                <motion.div 
-                  className="inline-flex items-center gap-6 p-6 bg-white/5 backdrop-blur-xl border border-white/10 rounded-sm hover:border-white/20 transition-all duration-300 group"
-                  whileHover={{ scale: 1.01, y: -2 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                >
-                  <motion.div 
-                    className="w-12 h-12 border border-white/10 flex items-center justify-center text-white/70 bg-white/5 group-hover:border-white/20 group-hover:text-white transition-all"
-                    whileHover={{ rotate: 5, scale: 1.05 }}
-                  >
+                <div className="flex items-center gap-4">
+                  <div className="text-white/50">
                     {block.icon}
-                  </motion.div>
+                  </div>
                   <div>
-                    <div className="font-mono text-[10px] text-white/40 tracking-[0.3em] uppercase mb-1">
+                    <div className="font-mono text-[10px] text-white/30 tracking-[0.3em] uppercase mb-1">
                       {block.accent}
                     </div>
-                    <h2 className="font-mono text-2xl text-white/90 uppercase tracking-widest group-hover:text-white transition-colors">
+                    <h2 className="font-mono text-xl md:text-2xl text-white/80 uppercase tracking-widest">
                       {block.title}
                     </h2>
                   </div>
-                </motion.div>
+                </div>
 
                 {block.description && (
                   <motion.p 
@@ -456,28 +472,8 @@ export default function GalleryPage() {
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="px-4 mt-32">
-          <div className="max-w-6xl mx-auto pt-12 border-t border-white/10">
-            <motion.div 
-              className="flex flex-col md:flex-row items-center justify-between gap-6"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <motion.div 
-                className="font-mono text-sm text-white/60 tracking-[0.2em] hover:text-white transition-colors cursor-pointer"
-                whileHover={{ scale: 1.02 }}
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              >
-                FOXAMPY LAB
-              </motion.div>
-              <div className="font-mono text-xs text-white/30">
-                © 2025 Foxampy Lab. {language === 'ru' ? 'Все права защищены.' : 'All rights reserved.'}
-              </div>
-            </motion.div>
-          </div>
-        </footer>
+        {/* Footer - minimal */}
+        <div className="h-16" />
 
         {/* Projects */}
         <section id="projects" className="px-4 py-16 md:py-24">
