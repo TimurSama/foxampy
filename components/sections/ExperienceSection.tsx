@@ -3,10 +3,10 @@
 import { motion } from 'framer-motion';
 import { Briefcase, ExternalLink } from 'lucide-react';
 import { useI18n } from '@/lib/i18n/context';
+import Image from 'next/image';
 
 interface Company {
   id: string;
-  name: string;
   url: string;
   role: string;
   roleEn: string;
@@ -21,7 +21,6 @@ export default function ExperienceSection() {
   const companies: Company[] = [
     {
       id: 'done',
-      name: 'Done',
       url: 'https://done.co.il',
       role: 'Brand & Creative Lead',
       roleEn: 'Brand & Creative Lead',
@@ -40,7 +39,6 @@ export default function ExperienceSection() {
     },
     {
       id: 'unicap',
-      name: 'UNICAP',
       url: 'https://unicap.invest.org',
       role: 'Creative Director',
       roleEn: 'Creative Director',
@@ -57,7 +55,6 @@ export default function ExperienceSection() {
     },
     {
       id: 'culligan',
-      name: 'Culligan Eurasia',
       url: 'https://www.culligan.com',
       role: 'Marketing Specialist',
       roleEn: 'Marketing Specialist',
@@ -74,7 +71,6 @@ export default function ExperienceSection() {
     },
     {
       id: 'realting',
-      name: 'Realting',
       url: 'https://realting.uz',
       role: 'Product & Research Lead',
       roleEn: 'Product & Research Lead',
@@ -153,10 +149,17 @@ export default function ExperienceSection() {
                 <div className="relative z-10 space-y-5">
                   {/* Company Header */}
                   <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h3 className="text-lg md:text-xl font-mono text-white group-hover:text-white/90 transition-colors">
-                        {company.name}
-                      </h3>
+                    <div className="flex-1">
+                      {/* Company Logo */}
+                      <div className="h-8 md:h-10 relative mb-2">
+                        <Image
+                          src={`/companys/${company.id}.png`}
+                          alt={company.id}
+                          fill
+                          className="object-contain object-left brightness-100 group-hover:brightness-110 transition-all duration-300"
+                          style={{ filter: 'grayscale(100%) brightness(200%)' }}
+                        />
+                      </div>
                       <p className="font-mono text-xs text-cyan-400/70 mt-1">
                         {isRussian ? company.role : company.roleEn}
                       </p>
@@ -166,7 +169,7 @@ export default function ExperienceSection() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 text-white/30 hover:text-white/60 transition-colors"
-                      aria-label={`Visit ${company.name}`}
+                      aria-label={`Visit ${company.id}`}
                     >
                       <ExternalLink size={12} />
                     </a>
