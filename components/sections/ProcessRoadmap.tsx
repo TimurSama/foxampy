@@ -172,12 +172,10 @@ export default function ProcessRoadmap() {
     
     setAnimatingCard(stageId);
     
-    // Переключаем контент в середине анимации
     setTimeout(() => {
       setActiveCard(prev => prev === stageId ? null : stageId);
     }, 150);
     
-    // Сбрасываем анимацию
     setTimeout(() => {
       setAnimatingCard(null);
     }, 300);
@@ -186,7 +184,6 @@ export default function ProcessRoadmap() {
   return (
     <section id="process" className="px-4 py-20 md:py-28">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-2xl md:text-3xl font-mono text-white mb-2">
             {language === 'ru' ? 'Полный цикл' : 'Full Cycle'}
@@ -196,7 +193,6 @@ export default function ProcessRoadmap() {
           </p>
         </div>
 
-        {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {stages.map((stage) => {
             const isActive = activeCard === stage.id;
@@ -205,53 +201,49 @@ export default function ProcessRoadmap() {
             return (
               <div
                 key={stage.id}
-                className="neo-card-container cursor-pointer"
+                className="cursor-pointer"
                 onClick={() => handleCardClick(stage.id)}
               >
-                {/* Внешняя рамка - неоморфизм */}
-                <div className="neo-card-outer">
-                  {/* Средняя рамка */}
-                  <div className="neo-card-middle">
-                    {/* Внутренняя рамка с анимацией */}
-                    <div className={`neo-card-inner ${isAnimating ? 'animate-contract' : ''}`}>
-                      {/* Контент */}
-                      <div className="neo-card-content">
-                        {/* Header с номером и иконкой */}
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="neo-icon">
-                            {stage.icon}
-                          </div>
-                          <span className="font-mono text-xl text-white/20">{stage.number}</span>
-                        </div>
-
-                        {/* Текстовый контент с crossfade */}
-                        <div className="relative min-h-[140px]">
-                          {/* Front content */}
-                          <div className={`neo-text-front ${isActive ? 'opacity-0' : 'opacity-100'}`}>
-                            <h3 className="text-lg font-mono text-white mb-2">
-                              {stage.title}
-                            </h3>
-                            <p className="text-xs text-white/40 mb-3 font-mono uppercase tracking-wider">
-                              {stage.subtitle}
-                            </p>
-                            <p className="text-sm text-white/50 leading-relaxed">
-                              {stage.description}
-                            </p>
+                <div className="card-outer">
+                  <div className="card-middle">
+                    <div className="card-inner">
+                      <div className={`content-frame ${isAnimating ? 'contract' : ''}`}>
+                        <div className="card-content">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="icon-box">
+                              {stage.icon}
+                            </div>
+                            <span className="font-mono text-xl text-white/20">{stage.number}</span>
                           </div>
 
-                          {/* Back content - детали */}
-                          <div className={`neo-text-back ${isActive ? 'opacity-100' : 'opacity-0'}`}>
-                            <h3 className="text-lg font-mono text-white mb-3">
-                              {stage.title}
-                            </h3>
-                            <ul className="space-y-2">
-                              {stage.details.map((detail, idx) => (
-                                <li key={idx} className="flex items-start gap-2 text-sm text-white/60">
-                                  <span className="w-1 h-1 bg-white/40 mt-1.5 flex-shrink-0" />
-                                  <span>{detail}</span>
-                                </li>
-                              ))}
-                            </ul>
+                          <div className="text-container">
+                            {!isActive ? (
+                              <div className="front-text">
+                                <h3 className="text-lg font-mono text-white mb-2">
+                                  {stage.title}
+                                </h3>
+                                <p className="text-xs text-white/40 mb-3 font-mono uppercase tracking-wider">
+                                  {stage.subtitle}
+                                </p>
+                                <p className="text-sm text-white/50 leading-relaxed">
+                                  {stage.description}
+                                </p>
+                              </div>
+                            ) : (
+                              <div className="back-text">
+                                <h3 className="text-lg font-mono text-white mb-3">
+                                  {stage.title}
+                                </h3>
+                                <ul className="space-y-2">
+                                  {stage.details.map((detail, idx) => (
+                                    <li key={idx} className="flex items-start gap-2 text-sm text-white/60">
+                                      <span className="w-1 h-1 bg-white/40 mt-1.5 flex-shrink-0" />
+                                      <span>{detail}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -265,118 +257,90 @@ export default function ProcessRoadmap() {
       </div>
 
       <style jsx>{`
-        .neo-card-container {
-          position: relative;
+        .card-outer {
+          background: #0a0a0a;
+          padding: 4px;
+          box-shadow: 
+            6px 6px 12px #020202,
+            -6px -6px 12px #121212;
         }
 
-        .neo-card-outer {
-          background: linear-gradient(145deg, #0a0a0a, #050505);
+        .card-middle {
+          background: #070707;
           padding: 3px;
           box-shadow: 
-            8px 8px 16px #020202,
-            -8px -8px 16px #0c0c0c,
-            inset 1px 1px 1px rgba(255,255,255,0.05);
+            inset 2px 2px 4px rgba(0,0,0,0.9),
+            inset -2px -2px 4px rgba(255,255,255,0.04);
         }
 
-        .neo-card-middle {
-          background: linear-gradient(145deg, #080808, #040404);
+        .card-inner {
+          background: #050505;
+          padding: 2px;
+          box-shadow: 
+            inset 1px 1px 3px rgba(0,0,0,0.9),
+            inset -1px -1px 3px rgba(255,255,255,0.03);
+        }
+
+        .content-frame {
+          background: #080808;
           padding: 2px;
           box-shadow: 
             inset 2px 2px 4px rgba(0,0,0,0.8),
-            inset -2px -2px 4px rgba(255,255,255,0.03);
+            inset -2px -2px 4px rgba(255,255,255,0.02);
         }
 
-        .neo-card-inner {
-          background: #060606;
-          padding: 2px;
-          box-shadow: 
-            inset 1px 1px 2px rgba(0,0,0,0.9),
-            inset -1px -1px 2px rgba(255,255,255,0.02);
-          transition: all 0.15s ease-out;
+        .content-frame.contract {
+          animation: contractPulse 0.3s ease-in-out;
         }
 
-        .neo-card-inner.animate-contract {
-          animation: contractRelease 0.3s ease-in-out;
-        }
-
-        @keyframes contractRelease {
+        @keyframes contractPulse {
           0% {
-            transform: scale(1);
+            padding: 2px;
             box-shadow: 
-              inset 1px 1px 2px rgba(0,0,0,0.9),
-              inset -1px -1px 2px rgba(255,255,255,0.02);
+              inset 2px 2px 4px rgba(0,0,0,0.8),
+              inset -2px -2px 4px rgba(255,255,255,0.02);
           }
           50% {
-            transform: scale(0.96);
+            padding: 8px;
             box-shadow: 
-              inset 4px 4px 8px rgba(0,0,0,1),
-              inset -4px -4px 8px rgba(255,255,255,0.05);
+              inset 6px 6px 12px rgba(0,0,0,1),
+              inset -6px -6px 12px rgba(255,255,255,0.06);
           }
           100% {
-            transform: scale(1);
+            padding: 2px;
             box-shadow: 
-              inset 1px 1px 2px rgba(0,0,0,0.9),
-              inset -1px -1px 2px rgba(255,255,255,0.02);
+              inset 2px 2px 4px rgba(0,0,0,0.8),
+              inset -2px -2px 4px rgba(255,255,255,0.02);
           }
         }
 
-        .neo-card-content {
+        .card-content {
           padding: 24px;
-          background: linear-gradient(145deg, #070707, #050505);
-          min-height: 280px;
-          display: flex;
-          flex-direction: column;
+          background: #060606;
+          min-height: 260px;
         }
 
-        .neo-icon {
+        .icon-box {
           width: 40px;
           height: 40px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255,255,255,0.5);
-          background: linear-gradient(145deg, #0a0a0a, #060606);
+          color: rgba(255,255,255,0.4);
+          background: #090909;
           box-shadow: 
-            3px 3px 6px #020202,
-            -3px -3px 6px #0e0e0e;
-          border: 1px solid rgba(255,255,255,0.08);
+            2px 2px 4px #020202,
+            -2px -2px 4px #101010;
+          border: 1px solid rgba(255,255,255,0.06);
         }
 
-        .neo-text-front,
-        .neo-text-back {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          transition: opacity 0.15s ease-out;
+        .text-container {
+          min-height: 140px;
         }
 
-        .neo-text-front {
-          pointer-events: none;
-        }
-
-        .neo-text-back {
-          opacity: 0;
-          pointer-events: none;
-        }
-
-        .neo-text-back.opacity-100 {
-          pointer-events: auto;
-        }
-
-        /* Hover эффект только на рамку */
-        .neo-card-container:hover .neo-card-outer {
-          box-shadow: 
-            10px 10px 20px #020202,
-            -10px -10px 20px #0e0e0e,
-            inset 1px 1px 1px rgba(255,255,255,0.08);
-        }
-
-        .neo-card-container:hover .neo-icon {
-          box-shadow: 
-            4px 4px 8px #020202,
-            -4px -4px 8px #0f0f0f;
-          color: rgba(255,255,255,0.7);
+        .front-text,
+        .back-text {
+          animation: none;
         }
       `}</style>
     </section>
