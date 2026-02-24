@@ -8,23 +8,24 @@ export default function AboutSection() {
 
   return (
     <section id="about" className="relative min-h-screen lg:flex lg:items-center overflow-hidden">
-      {/* Mobile: Full screen without header padding, smaller photos at top/bottom */}
+      {/* Mobile: Full screen without header padding, photo at top-left */}
       <div className="lg:hidden relative h-screen flex flex-col">
-        {/* Top Photo - Small strip at top */}
+        {/* Top Photo - Positioned at left edge */}
         <motion.div 
-          className="relative h-[12vh] flex-shrink-0 overflow-hidden"
+          className="relative h-[25vh] flex-shrink-0 overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <div 
-            className="absolute inset-0 bg-cover bg-center grayscale"
+            className="absolute left-0 top-0 h-full w-[60vw] bg-cover bg-left grayscale"
             style={{
               backgroundImage: `url('/photo/слева.png')`,
-              backgroundPosition: 'center 30%',
+              backgroundPosition: 'left center',
             }}
           />
-          <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#030303] to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#030303] to-transparent" />
+          <div className="absolute right-0 top-0 h-full w-1/2 bg-gradient-to-r from-transparent to-[#030303]" />
         </motion.div>
 
         {/* Center Content - Takes most space */}
@@ -63,26 +64,9 @@ export default function AboutSection() {
             }
           </p>
         </motion.div>
-
-        {/* Bottom Photo - Small strip at bottom, showing lower part */}
-        <motion.div 
-          className="relative h-[12vh] flex-shrink-0 overflow-hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          <div 
-            className="absolute inset-0 bg-cover bg-center grayscale"
-            style={{
-              backgroundImage: `url('/photo/справа.png')`,
-              backgroundPosition: 'center 85%', // Lower part of image
-            }}
-          />
-          <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-[#030303] to-transparent" />
-        </motion.div>
       </div>
 
-      {/* Desktop: Grid layout (unchanged) */}
+      {/* Desktop: Grid layout without right photo */}
       <div className="hidden lg:grid w-full grid-cols-12 min-h-screen">
         {/* Left Photo Container */}
         <motion.div 
@@ -103,9 +87,9 @@ export default function AboutSection() {
           <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#030303] to-transparent" />
         </motion.div>
 
-        {/* Center Content */}
+        {/* Center Content - Now takes more space */}
         <motion.div 
-          className="col-span-8 flex flex-col items-center justify-center px-6 py-12 relative z-20"
+          className="col-span-10 flex flex-col items-center justify-center px-6 py-12 relative z-20"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -135,25 +119,6 @@ export default function AboutSection() {
               : 'Creating sustainable systems at the intersection of business, design and technology. Working with complex projects requiring a systematic approach and interdisciplinary thinking.'
             }
           </p>
-        </motion.div>
-
-        {/* Right Photo Container */}
-        <motion.div 
-          className="col-span-2 relative h-auto overflow-hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          <div 
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-full h-[80vh] bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
-            style={{
-              backgroundImage: `url('/photo/справа.png')`,
-              backgroundPosition: 'center 20%',
-            }}
-          />
-          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-l from-transparent to-[#030303]" />
-          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#030303] to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#030303] to-transparent" />
         </motion.div>
       </div>
     </section>
