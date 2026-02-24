@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { Briefcase, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { useI18n } from '@/lib/i18n/context';
 import Image from 'next/image';
 
@@ -92,28 +92,15 @@ export default function ExperienceSection() {
   ];
 
   return (
-    <section id="experience" className="px-4 py-16 md:py-24">
-      <div className="max-w-6xl mx-auto">
+    <section id="experience" className="px-4 py-12 md:py-16 lg:py-20 min-h-screen flex flex-col justify-center">
+      <div className="max-w-6xl mx-auto w-full">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12 md:mb-16"
+          className="text-center mb-8 md:mb-10"
         >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 border border-white/10 bg-white/[0.03] rounded-full mb-6"
-          >
-            <Briefcase size={14} className="text-white/50" />
-            <span className="font-mono text-[10px] text-white/50 tracking-widest uppercase">
-              {isRussian ? 'Карьерный путь' : 'Career Path'}
-            </span>
-          </motion.div>
-
           <h2 className="text-2xl md:text-3xl font-mono text-white mb-3">
             {isRussian ? 'Опыт работы' : 'Work Experience'}
           </h2>
@@ -134,7 +121,7 @@ export default function ExperienceSection() {
               className="group relative"
             >
               {/* Glass Card */}
-              <div className="h-full p-6 md:p-8
+              <div className="h-full p-5 md:p-6
                               bg-white/[0.02] backdrop-blur-xl
                               border border-white/[0.08]
                               rounded-lg
@@ -146,18 +133,19 @@ export default function ExperienceSection() {
                 <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none
                                 bg-gradient-to-br from-white/[0.03] via-transparent to-white/[0.01]" />
 
-                <div className="relative z-10 space-y-5">
+                <div className="relative z-10 space-y-4">
                   {/* Company Header */}
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
-                      {/* Company Logo */}
-                      <div className="h-8 md:h-10 relative mb-2">
+                      {/* Company Logo - Fixed aspect ratio */}
+                      <div className="relative mb-2" style={{ width: 'auto', height: '28px', display: 'inline-block' }}>
                         <Image
                           src={`/companys/${company.id}.png`}
                           alt={company.id}
-                          fill
-                          className="object-contain object-left brightness-100 group-hover:brightness-110 transition-all duration-300"
-                          style={{ filter: 'grayscale(100%) brightness(200%)' }}
+                          width={120}
+                          height={28}
+                          className="object-contain brightness-100 group-hover:brightness-110 transition-all duration-300"
+                          style={{ filter: 'grayscale(100%) brightness(200%)', height: '28px', width: 'auto' }}
                         />
                       </div>
                       <p className="font-mono text-xs text-cyan-400/70 mt-1">
@@ -168,7 +156,7 @@ export default function ExperienceSection() {
                       href={company.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-white/30 hover:text-white/60 transition-colors"
+                      className="flex items-center gap-1 text-white/30 hover:text-white/60 transition-colors flex-shrink-0"
                       aria-label={`Visit ${company.id}`}
                     >
                       <ExternalLink size={12} />
@@ -176,7 +164,7 @@ export default function ExperienceSection() {
                   </div>
 
                   {/* Achievements List */}
-                  <ul className="space-y-2">
+                  <ul className="space-y-1.5">
                     {(isRussian ? company.achievements : company.achievementsEn).map((item, idx) => (
                       <motion.li
                         key={idx}

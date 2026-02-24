@@ -9,10 +9,10 @@ export default function AboutSection() {
   return (
     <section id="about" className="relative min-h-screen lg:flex lg:items-center overflow-hidden">
       {/* Mobile: Photo bottom-left, text top-right */}
-      <div className="lg:hidden relative h-screen">
+      <div className="lg:hidden relative h-[calc(100vh-64px)]">
         {/* Photo - Smaller at bottom-left */}
         <motion.div 
-          className="absolute left-0 bottom-0 h-[57vh] w-[55vw]"
+          className="absolute left-0 bottom-0 h-[45vh] w-[50vw]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -25,13 +25,13 @@ export default function AboutSection() {
             }}
           />
           {/* Gradient from photo to background */}
-          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-r from-transparent to-[#030303]" />
-          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#030303] to-transparent" />
+          <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-r from-transparent to-[#030303]" />
+          <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#030303] to-transparent" />
         </motion.div>
 
         {/* Text Content - Top-right, higher position */}
         <motion.div 
-          className="absolute top-16 right-6 left-6 flex flex-col items-end z-20"
+          className="absolute top-12 right-6 left-6 flex flex-col items-end z-20"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
