@@ -17,6 +17,7 @@ import Header from '@/components/layout/Header';
 import ContactModal from '@/components/modals/ContactModal';
 import FloatingContactButton from '@/components/FloatingContactButton';
 import AboutSection from '@/components/sections/AboutSection';
+import ExperienceSection from '@/components/sections/ExperienceSection';
 import ProcessRoadmap from '@/components/sections/ProcessRoadmap';
 import { ProjectsGrid } from '@/components/sections/ProjectCards';
 import { useI18n } from '@/lib/i18n/context';
@@ -271,6 +272,9 @@ export default function GalleryPage() {
       <main className="relative z-10 pt-24 pb-24">
         {/* About section - Main entry */}
         <AboutSection />
+
+        {/* Experience Section */}
+        <ExperienceSection />
 
         {/* Process Roadmap */}
         <ProcessRoadmap />

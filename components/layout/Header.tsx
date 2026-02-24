@@ -8,6 +8,7 @@ import type { Language } from '@/lib/i18n/translations';
 
 const menuItemsConfig = [
   { path: '#about', label: 'ОБО МНЕ', labelEn: 'ABOUT' },
+  { path: '#experience', label: 'ОПЫТ', labelEn: 'EXPERIENCE' },
   { path: '#process', label: 'ПРОЦЕСС', labelEn: 'PROCESS' },
   { path: '#projects', label: 'ПРОЕКТЫ', labelEn: 'PROJECTS' },
   { path: '#fashion', label: 'МОДА', labelEn: 'FASHION' },

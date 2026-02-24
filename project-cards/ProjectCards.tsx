@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, TrendingUp, Target } from 'lucide-react';
 import Link from 'next/link';
+import { ProjectPreviewModal } from '@/components/modals/ProjectPreviewModal';
 
 // ============================================
 // ТИПЫ ДАННЫХ
@@ -65,12 +67,12 @@ export const projects: Project[] = [
     stageLabel: 'Пилот',
   },
   {
-    id: 'nexusvita',
-    name: 'NexusVita',
-    nameEn: 'NexusVita',
+    id: 'etholife',
+    name: 'EthoLife',
+    nameEn: 'EthoLife',
     description: 'Платформа интеграции жизненных данных и сервисов в единую экосистему здоровья и благополучия. Обеспечивает связность между медицинскими приложениями, фитнес-трекерами, wellness-сервисами и системами здравоохранения через унифицированные API и стандарты обмена данными.',
     descriptionEn: 'Platform for integrating life data and services into a unified health and wellness ecosystem. Ensures connectivity between medical applications, fitness trackers, wellness services, and healthcare systems through unified APIs and data exchange standards.',
-    url: 'https://github.com/TimurSama/NexusVita',
+    url: 'https://etholife.vercel.app/',
     status: 'active',
     category: 'Здоровье / Интеграция',
     categoryEn: 'Health / Integration',
@@ -103,9 +105,10 @@ interface ProjectCardProps {
   project: Project;
   index: number;
   language?: 'ru' | 'en';
+  onOpenPreview: (url: string, name: string) => void;
 }
 
-export function ProjectCard({ project, index, language = 'ru' }: ProjectCardProps) {
+export function ProjectCard({ project, index, language = 'ru', onOpenPreview }: ProjectCardProps) {
   const isRussian = language !== 'en';
 
   return (
@@ -219,10 +222,10 @@ export function ProjectCard({ project, index, language = 'ru' }: ProjectCardProp
             </Link>
           )}
 
-          {/* Кнопка презентации для NexusVita */}
-          {project.id === 'nexusvita' && (
+          {/* Кнопка презентации для EthoLife */}
+          {project.id === 'etholife' && (
             <Link
-              href="/projects/nexusvita/presentation"
+              href="/projects/etholife/presentation"
               className="inline-flex items-center gap-2 px-4 py-2 border border-white/20 bg-white/5
                        hover:border-cyan-400/50 hover:bg-cyan-400/10 transition-all
                        font-mono text-xs text-white tracking-wider group/link rounded"
@@ -232,18 +235,16 @@ export function ProjectCard({ project, index, language = 'ru' }: ProjectCardProp
             </Link>
           )}
 
-          {/* Внешняя ссылка на проект */}
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
+          {/* Кнопка открытия проекта в модальном окне */}
+          <button
+            onClick={() => onOpenPreview(project.url, isRussian ? project.name : project.nameEn)}
             className="inline-flex items-center gap-2 px-4 py-2 border border-white/10 bg-white/5
                      hover:border-cyan-400/50 hover:bg-cyan-400/10 transition-all
-                     font-mono text-xs text-gray-300 tracking-wider group/link rounded"
+                     font-mono text-xs text-gray-300 tracking-wider group/link rounded cursor-pointer"
           >
             Открыть проект
             <ExternalLink size={12} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-          </a>
+          </button>
         </div>
       </div>
     </motion.div>
@@ -259,17 +260,41 @@ interface ProjectsGridProps {
 }
 
 export function ProjectsGrid({ language = 'ru', className = '' }: ProjectsGridProps) {
+  const [previewModal, setPreviewModal] = useState<{ isOpen: boolean; url: string; name: string }>({
+    isOpen: false,
+    url: '',
+    name: '',
+  });
+
+  const handleOpenPreview = (url: string, name: string) => {
+    setPreviewModal({ isOpen: true, url, name });
+  };
+
+  const handleClosePreview = () => {
+    setPreviewModal(prev => ({ ...prev, isOpen: false }));
+  };
+
   return (
-    <div className={`grid md:grid-cols-2 gap-6 ${className}`}>
-      {projects.map((project, index) => (
-        <ProjectCard 
-          key={project.id} 
-          project={project} 
-          index={index} 
-          language={language}
-        />
-      ))}
-    </div>
+    <>
+      <div className={`grid md:grid-cols-2 gap-6 ${className}`}>
+        {projects.map((project, index) => (
+          <ProjectCard 
+            key={project.id} 
+            project={project} 
+            index={index} 
+            language={language}
+            onOpenPreview={handleOpenPreview}
+          />
+        ))}
+      </div>
+
+      <ProjectPreviewModal
+        isOpen={previewModal.isOpen}
+        onClose={handleClosePreview}
+        url={previewModal.url}
+        projectName={previewModal.name}
+      />
+    </>
   );
 }
 
@@ -277,6 +302,20 @@ export function ProjectsGrid({ language = 'ru', className = '' }: ProjectsGridPr
 // КОМПОНЕНТ СТРАНИЦЫ PROJECT HUB
 // ============================================
 export default function ProjectHub() {
+  const [previewModal, setPreviewModal] = useState<{ isOpen: boolean; url: string; name: string }>({
+    isOpen: false,
+    url: '',
+    name: '',
+  });
+
+  const handleOpenPreview = (url: string, name: string) => {
+    setPreviewModal({ isOpen: true, url, name });
+  };
+
+  const handleClosePreview = () => {
+    setPreviewModal(prev => ({ ...prev, isOpen: false }));
+  };
+
   return (
     <div className="relative min-h-screen bg-[#050505]">
       {/* Фоновый градиент */}
@@ -308,10 +347,26 @@ export default function ProjectHub() {
             </motion.div>
 
             {/* Projects Grid */}
-            <ProjectsGrid />
+            <div className="grid md:grid-cols-2 gap-6">
+              {projects.map((project, index) => (
+                <ProjectCard 
+                  key={project.id} 
+                  project={project} 
+                  index={index}
+                  onOpenPreview={handleOpenPreview}
+                />
+              ))}
+            </div>
           </div>
         </section>
       </main>
+
+      <ProjectPreviewModal
+        isOpen={previewModal.isOpen}
+        onClose={handleClosePreview}
+        url={previewModal.url}
+        projectName={previewModal.name}
+      />
     </div>
   );
 }
