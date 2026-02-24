@@ -228,11 +228,76 @@ export default function GalleryPage() {
       projects: [
         {
           id: 'rd-iot',
-          title: language === 'ru' ? 'Прозрачный мониторинг' : 'Transparent Monitoring',
-          category: language === 'ru' ? 'Интегрированный блокчейн в IoT анализа и контроля' : 'Integrated blockchain in IoT analysis and control',
+          title: language === 'ru' ? 'SensorDAO Protocol' : 'SensorDAO Protocol',
+          category: language === 'ru' ? 'Прозрачный мониторинг через автономную эмиссию данных' : 'Transparent monitoring through autonomous data emission',
           description: language === 'ru' 
-            ? 'Разработка единой платформы для подключения и управления IoT-устройствами в инфраструктуре умного города с интеграцией блокчейн-протоколов для обеспечения прозрачности и неизменности данных мониторинга окружающей среды.'
-            : 'Development of a unified platform for connecting and managing IoT devices in smart city infrastructure with blockchain protocol integration to ensure transparency and immutability of environmental monitoring data.',
+            ? `SensorDAO Protocol — это архитектура децентрализованной физической сети, где IoT-сенсоры выступают как полноценные экономические агенты, способные самостоятельно эмитировать токены в обмен на криптографически верифицированные пакеты измерений.
+
+АРХИТЕКТУРА СИСТЕМЫ:
+
+1. Уровень сбора (Edge Layer)
+Автономные сенсорные кластеры оснащены защищенными элементами (Secure Enclaves). Каждое измерение подписывается приватным ключом устройства, снабжается временной меткой и геолокацией, упаковывается в DataHash (SHA-3).
+
+2. Уровень валидации (Node Layer)
+Данные попадают в ближайшую ноду сети. Нода выполняет проверку цифровой подписи сенсора, сверку с аномалиями (cross-reference с соседними датчиками), формирование Merkle Tree из пакетов данных.
+
+3. Уровень консенсуса (DAO Layer)
+• Proof-of-Sensor (PoSe): Механизм подтверждения физического существования датчика через случайные криптографические вызовы
+• Data-Finality: Голосование за включение блока данных в основную цепь
+• Репутационный слой: Датчики накапливают reputation-score; низкая репутация = снижение эмиссии
+
+МЕХАНИКА ЭМИССИИ: Sensor-to-Token (S2T)
+
+В отличие от классических DeFi-моделей, эмитентом выступает само устройство:
+
+Trigger: Датчик фиксирует событие
+Packet: Формируется структура {DataHash, Timestamp, Geo, Signature}
+Oracle-Bridge: Нода упаковывает хеш в транзакцию, но не передает сами данные
+Emission: При достижении кворума валидаторов смарт-контракт минтит токены $SENSE
+Data-Availability: Сырые данные хранятся в IPFS/Filecoin с доступом по хешу
+
+Формула эмиссии:
+Emission = Base_Reward × Quality_Coefficient × Time_Decay
+где Quality_Coefficient зависит от частоты измерений, стабильности соединения и соответствия ожидаемым паттернам.
+
+ПРОЗРАЧНОСТЬ КАК ТЕХНИЧЕСКИЙ СТАНДАРТ:
+
+• Verifiable Telemetry: Любой участник может проверить, что данные не подделаны, сравнив хеш в блокчейне с публично доступным исходным файлом
+• Anti-Tampering: Попытка физического взлома датчика фиксируется акселерометром и маркирует данные как "подозрительные"
+• Open Telemetry API: Публичный доступ к потоку хешей без раскрытия точных координат приватных объектов (geofencing на уровне смарт-контракта)`
+            : `SensorDAO Protocol is an architecture of a decentralized physical network where IoT sensors act as full economic agents capable of autonomously emitting tokens in exchange for cryptographically verified measurement packages.
+
+SYSTEM ARCHITECTURE:
+
+1. Edge Layer
+Autonomous sensor clusters equipped with Secure Enclaves. Each measurement is signed with the device's private key, timestamped, geolocated, and packaged into DataHash (SHA-3).
+
+2. Node Layer
+Data reaches the nearest network node. The node performs digital signature verification, cross-reference anomaly detection, and Merkle Tree formation.
+
+3. DAO Layer
+• Proof-of-Sensor (PoSe): Mechanism for verifying sensor physical existence through random cryptographic challenges
+• Data-Finality: Voting for block inclusion
+• Reputation layer: Sensors accumulate reputation-score; low reputation = reduced emission
+
+SENSOR-TO-TOKEN (S2T) MECHANICS:
+
+Unlike classical DeFi models, the device itself is the emitter:
+
+Trigger: Sensor captures event
+Packet: Structure formed {DataHash, Timestamp, Geo, Signature}
+Oracle-Bridge: Node packs hash without exposing raw data
+Emission: Smart contract mints $SENSE tokens upon validator quorum
+Data-Availability: Raw data stored in IPFS/Filecoin
+
+Emission formula:
+Emission = Base_Reward × Quality_Coefficient × Time_Decay
+
+TRANSPARENCY STANDARDS:
+
+• Verifiable Telemetry: Anyone can verify data authenticity
+• Anti-Tampering: Physical tampering detected by accelerometer
+• Open Telemetry API: Public hash stream access without revealing private coordinates`,
           solution: '',
           visuals: '',
           icon: <Monitor size={20} />
@@ -448,9 +513,11 @@ export default function GalleryPage() {
                                     <h4 className="font-mono text-[10px] text-white/40 uppercase tracking-widest">
                                       {language === 'ru' ? 'Описание' : 'Description'}
                                     </h4>
-                                    <p className="font-mono text-sm text-white/70 leading-relaxed whitespace-pre-line">
-                                      {project.description}
-                                    </p>
+                                    <div className="max-h-[60vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+                                      <p className="font-mono text-sm text-white/70 leading-relaxed whitespace-pre-line">
+                                        {project.description}
+                                      </p>
+                                    </div>
                                   </div>
                                   {project.solution && (
                                     <div className="space-y-3">

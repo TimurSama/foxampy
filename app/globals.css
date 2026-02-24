@@ -74,6 +74,24 @@ body {
   border-radius: 1px;
 }
 
+/* Custom scrollbar utility classes */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollbar-thumb-white\/20::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.scrollbar-thumb-white\/20::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.scrollbar-track-transparent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 /* ========== LIQUID GLASS COMPONENTS ========== */
 
 /* Glass Card Base */
