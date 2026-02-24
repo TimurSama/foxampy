@@ -8,11 +8,11 @@ export default function AboutSection() {
 
   return (
     <section id="about" className="relative min-h-screen lg:flex lg:items-center overflow-hidden">
-      {/* Mobile: Flex column layout, all on one screen */}
+      {/* Mobile: Full screen without header padding, photos larger */}
       <div className="lg:hidden relative h-screen flex flex-col">
-        {/* Top Photo */}
+        {/* Top Photo - Larger, starts from very top */}
         <motion.div 
-          className="relative h-[28vh] flex-shrink-0 overflow-hidden"
+          className="relative h-[38vh] flex-shrink-0 overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -21,22 +21,22 @@ export default function AboutSection() {
             className="absolute inset-0 bg-cover bg-center grayscale"
             style={{
               backgroundImage: `url('/photo/слева.png')`,
-              backgroundPosition: 'center 30%',
+              backgroundPosition: 'center 25%',
             }}
           />
-          <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#030303] to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#030303] to-transparent" />
         </motion.div>
 
-        {/* Center Content - Compact */}
+        {/* Center Content - Compact, centered */}
         <motion.div 
-          className="flex-1 flex flex-col items-center justify-center px-6 py-4 relative z-20 min-h-0"
+          className="flex-1 flex flex-col items-center justify-center px-5 relative z-20"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           {/* Badge */}
           <motion.div 
-            className="inline-flex items-center gap-2 px-3 py-1.5 mb-3 
+            className="inline-flex items-center gap-2 px-3 py-1.5 mb-2
                        border border-white/20 bg-white/[0.03] backdrop-blur-sm
                        rounded-full"
           >
@@ -45,28 +45,28 @@ export default function AboutSection() {
             </span>
           </motion.div>
           
-          {/* Name - Smaller on mobile */}
-          <h1 className="text-4xl font-mono text-white leading-none mb-2 tracking-tight">
+          {/* Name */}
+          <h1 className="text-3xl font-mono text-white leading-none mb-1 tracking-tight">
             Foxampy
           </h1>
 
           {/* Real name */}
-          <p className="text-xs font-mono text-white/40 tracking-[0.2em] uppercase mb-4">
+          <p className="text-[10px] font-mono text-white/40 tracking-[0.2em] uppercase mb-3">
             Timur Cadik
           </p>
 
-          {/* Description - Compact */}
-          <p className="text-sm text-white/50 leading-relaxed max-w-xs text-center font-light">
+          {/* Description - Single line */}
+          <p className="text-xs text-white/50 leading-relaxed max-w-[280px] text-center font-light">
             {language === 'ru' 
-              ? 'Создаю устойчивые системы на пересечении бизнеса, дизайна и технологий.'
-              : 'Creating sustainable systems at the intersection of business, design and technology.'
+              ? 'Системный подход на пересечении бизнеса, дизайна и технологий.'
+              : 'Systematic approach at the intersection of business, design and technology.'
             }
           </p>
         </motion.div>
 
-        {/* Bottom Photo - At the very bottom */}
+        {/* Bottom Photo - Larger, at the very bottom */}
         <motion.div 
-          className="relative h-[28vh] flex-shrink-0 overflow-hidden"
+          className="relative h-[38vh] flex-shrink-0 overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.6 }}
@@ -75,10 +75,10 @@ export default function AboutSection() {
             className="absolute inset-0 bg-cover bg-center grayscale"
             style={{
               backgroundImage: `url('/photo/справа.png')`,
-              backgroundPosition: 'center 30%',
+              backgroundPosition: 'center 25%',
             }}
           />
-          <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-[#030303] to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#030303] to-transparent" />
         </motion.div>
       </div>
 
