@@ -50,6 +50,14 @@ const architectureImages = [
 function ImageCarousel({ images }: { images: string[] }) {
   const [index, setIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const next = () => setIndex((prev) => (prev + 1) % images.length);
   const prev = () => setIndex((prev) => (prev - 1 + images.length) % images.length);
@@ -60,31 +68,66 @@ function ImageCarousel({ images }: { images: string[] }) {
     return () => clearInterval(timer);
   }, [images.length, isHovered]);
 
+  // Touch swipe handlers
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe) next();
+    if (isRightSwipe) prev();
+  };
+
   return (
     <motion.div 
-      className="relative w-full aspect-[4/5] md:aspect-auto md:h-[50vh] overflow-hidden border border-white/10 bg-black/30 group"
+      className="relative w-full h-[50vh] sm:h-[60vh] md:h-[50vh] overflow-hidden border border-white/10 bg-black/30 group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
       whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
     >
       <AnimatePresence mode="wait">
-        <motion.img
+        <motion.div
           key={index}
-          src={images[index]}
+          className="absolute inset-0 flex items-center justify-center"
           initial={{ opacity: 0, scale: 1.05 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full h-full object-contain"
-          alt={`Gallery image ${index + 1}`}
-        />
+        >
+          <img
+            src={images[index]}
+            className="max-w-full max-h-full w-auto h-auto object-contain"
+            alt={`Gallery image ${index + 1}`}
+            loading="eager"
+            style={{
+              maxHeight: '100%',
+              maxWidth: '100%',
+            }}
+          />
+        </motion.div>
       </AnimatePresence>
 
-      {/* Controls */}
-      <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      {/* Controls - always visible on mobile, hover on desktop */}
+      <div className={`absolute inset-0 flex items-center justify-between px-2 sm:px-4 pointer-events-none transition-opacity duration-300 ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
         <motion.button
           onClick={(e) => { e.stopPropagation(); prev(); }}
-          className="pointer-events-auto w-10 h-10 flex items-center justify-center bg-black/50 backdrop-blur-sm border border-white/20 text-white hover:bg-white/10 hover:border-white/40 transition-all"
+          className="pointer-events-auto w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-black/60 backdrop-blur-sm border border-white/20 text-white hover:bg-white/10 hover:border-white/40 transition-all active:scale-95"
           whileHover={{ scale: 1.1, x: -2 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -92,7 +135,7 @@ function ImageCarousel({ images }: { images: string[] }) {
         </motion.button>
         <motion.button
           onClick={(e) => { e.stopPropagation(); next(); }}
-          className="pointer-events-auto w-10 h-10 flex items-center justify-center bg-black/50 backdrop-blur-sm border border-white/20 text-white hover:bg-white/10 hover:border-white/40 transition-all"
+          className="pointer-events-auto w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-black/60 backdrop-blur-sm border border-white/20 text-white hover:bg-white/10 hover:border-white/40 transition-all active:scale-95"
           whileHover={{ scale: 1.1, x: 2 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -101,16 +144,24 @@ function ImageCarousel({ images }: { images: string[] }) {
       </div>
 
       {/* Progress dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+      <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-2 px-4 py-2 bg-black/40 backdrop-blur-sm rounded-full">
         {images.map((_, i) => (
           <motion.button
             key={i}
             onClick={() => setIndex(i)}
-            className={`h-1 rounded-full transition-all duration-300 ${i === index ? 'bg-white' : 'bg-white/20 hover:bg-white/40'}`}
-            animate={{ width: i === index ? 32 : 8 }}
+            className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 ${i === index ? 'bg-white' : 'bg-white/30 hover:bg-white/50'}`}
+            animate={{ width: i === index ? 24 : 8 }}
             whileHover={{ scale: 1.2 }}
+            aria-label={`Go to image ${i + 1}`}
           />
         ))}
+      </div>
+
+      {/* Image counter for mobile */}
+      <div className="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-sm rounded-full md:hidden">
+        <span className="text-white/80 text-xs font-mono">
+          {index + 1} / {images.length}
+        </span>
       </div>
     </motion.div>
   );

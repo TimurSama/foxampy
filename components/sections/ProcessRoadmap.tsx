@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useI18n } from '@/lib/i18n/context';
 import { useState } from 'react';
 import { 
@@ -10,7 +10,8 @@ import {
   Hammer,
   Rocket,
   TrendingUp,
-  RotateCcw
+  ChevronDown,
+  X
 } from 'lucide-react';
 
 interface Stage {
@@ -26,7 +27,7 @@ interface Stage {
 
 export default function ProcessRoadmap() {
   const { language } = useI18n();
-  const [flippedCard, setFlippedCard] = useState<string | null>(null);
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
 
   const stages: Stage[] = [
     {
@@ -175,23 +176,32 @@ export default function ProcessRoadmap() {
     }
   ];
 
-  const getCardStyles = (style: Stage['style'], isFlipped: boolean) => {
-    const baseStyles = "relative w-full h-[320px] cursor-pointer perspective-1000";
-    
-    const styleVariants = {
-      neural: "",
-      organic: "",
-      geometric: "",
-      fluid: "",
-      crystalline: "",
-      minimal: ""
-    };
+  const getCardBorderStyles = (style: Stage['style']) => {
+    switch (style) {
+      case 'neural': return 'border-white/[0.15] rounded-2xl';
+      case 'organic': return 'border-white/[0.12] rounded-[2rem]';
+      case 'geometric': return 'border-white/[0.18] rounded-lg';
+      case 'fluid': return 'border-white/[0.1] rounded-[1.5rem_0.5rem]';
+      case 'crystalline': return 'border-white/[0.2] rounded-sm';
+      case 'minimal': return 'border-white/[0.08] rounded-xl';
+      default: return 'border-white/10 rounded-xl';
+    }
+  };
 
-    return `${baseStyles} ${styleVariants[style]}`;
+  const getIconContainerStyles = (style: Stage['style']) => {
+    switch (style) {
+      case 'neural': return 'w-12 h-12 rounded-full border border-white/20';
+      case 'organic': return 'w-12 h-12 rounded-2xl border border-white/15';
+      case 'geometric': return 'w-11 h-11 border border-white/25';
+      case 'fluid': return 'w-12 h-12 rounded-full bg-white/[0.05]';
+      case 'crystalline': return 'w-11 h-11 border border-white/30';
+      case 'minimal': return 'w-10 h-10 rounded-lg border border-white/10';
+      default: return 'w-11 h-11 border border-white/20';
+    }
   };
 
   const StageCard = ({ stage, index }: { stage: Stage; index: number }) => {
-    const isFlipped = flippedCard === stage.id;
+    const isExpanded = expandedCard === stage.id;
 
     return (
       <motion.div
@@ -199,135 +209,114 @@ export default function ProcessRoadmap() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: index * 0.1, duration: 0.5 }}
-        className={getCardStyles(stage.style, isFlipped)}
-        onClick={() => setFlippedCard(isFlipped ? null : stage.id)}
+        layout
+        className={`relative cursor-pointer border bg-white/[0.02] backdrop-blur-xl
+                    transition-all duration-500 hover:bg-white/[0.04]
+                    ${getCardBorderStyles(stage.style)}
+                    ${isExpanded ? 'bg-white/[0.05]' : ''}
+                   `}
+        onClick={() => setExpandedCard(isExpanded ? null : stage.id)}
       >
-        <div 
-          className="relative w-full h-full transition-transform duration-700 preserve-3d"
-          style={{ transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
-        >
-          {/* Front Side */}
-          <div 
-            className={`absolute inset-0 backface-hidden p-6 
-                       bg-white/[0.02] backdrop-blur-xl
-                       transition-all duration-500
-                       hover:bg-white/[0.04]
-                       ${stage.style === 'neural' ? 'border border-white/[0.15] rounded-2xl' : ''}
-                       ${stage.style === 'organic' ? 'border border-white/[0.12] rounded-[2rem]' : ''}
-                       ${stage.style === 'geometric' ? 'border border-white/[0.18] rounded-lg' : ''}
-                       ${stage.style === 'fluid' ? 'border border-white/[0.1] rounded-[1.5rem_0.5rem]' : ''}
-                       ${stage.style === 'crystalline' ? 'border border-white/[0.2] rounded-sm' : ''}
-                       ${stage.style === 'minimal' ? 'border border-white/[0.08] rounded-xl' : ''}
-                      `}
-          >
-            {/* Style-specific decorations */}
-            {stage.style === 'neural' && (
-              <div className="absolute top-3 right-3 w-16 h-16 opacity-20">
-                <div className="absolute inset-0 border border-white/30 rounded-full" />
-                <div className="absolute inset-2 border border-white/20 rounded-full" />
-                <div className="absolute inset-4 border border-white/10 rounded-full" />
-              </div>
-            )}
-            {stage.style === 'organic' && (
-              <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-white/[0.03] rounded-full blur-xl" />
-            )}
-            {stage.style === 'geometric' && (
-              <div className="absolute top-4 right-4 w-8 h-8 border border-white/20 rotate-45" />
-            )}
-            {stage.style === 'fluid' && (
-              <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-white/[0.05] to-transparent rounded-b-[1.5rem_0.5rem]" />
-            )}
-            {stage.style === 'crystalline' && (
-              <div className="absolute top-0 right-0 w-0 h-0 border-t-[40px] border-t-white/[0.08] border-l-[40px] border-l-transparent" />
-            )}
+        {/* Style-specific decorations */}
+        {stage.style === 'neural' && !isExpanded && (
+          <div className="absolute top-3 right-3 w-16 h-16 opacity-20 pointer-events-none">
+            <div className="absolute inset-0 border border-white/30 rounded-full" />
+            <div className="absolute inset-2 border border-white/20 rounded-full" />
+            <div className="absolute inset-4 border border-white/10 rounded-full" />
+          </div>
+        )}
+        {stage.style === 'organic' && (
+          <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-white/[0.03] rounded-full blur-xl pointer-events-none" />
+        )}
+        {stage.style === 'geometric' && !isExpanded && (
+          <div className="absolute top-4 right-4 w-8 h-8 border border-white/20 rotate-45 pointer-events-none" />
+        )}
+        {stage.style === 'fluid' && (
+          <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-white/[0.05] to-transparent pointer-events-none" 
+               style={{ borderRadius: 'inherit' }} />
+        )}
+        {stage.style === 'crystalline' && !isExpanded && (
+          <div className="absolute top-0 right-0 w-0 h-0 border-t-[40px] border-t-white/[0.08] border-l-[40px] border-l-transparent pointer-events-none" />
+        )}
 
-            <div className="relative z-10 h-full flex flex-col">
-              {/* Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div className={`flex items-center justify-center text-white/50
-                                ${stage.style === 'neural' ? 'w-12 h-12 rounded-full border border-white/20' : ''}
-                                ${stage.style === 'organic' ? 'w-12 h-12 rounded-2xl border border-white/15' : ''}
-                                ${stage.style === 'geometric' ? 'w-11 h-11 border border-white/25' : ''}
-                                ${stage.style === 'fluid' ? 'w-12 h-12 rounded-full bg-white/[0.05]' : ''}
-                                ${stage.style === 'crystalline' ? 'w-11 h-11 border border-white/30' : ''}
-                                ${stage.style === 'minimal' ? 'w-10 h-10 rounded-lg border border-white/10' : ''}
-                               `}>
-                  {stage.icon}
+        <div className="relative z-10 p-6">
+          {/* Header - Always visible */}
+          <div className="flex items-start justify-between mb-4">
+            <div className={`flex items-center justify-center text-white/50 ${getIconContainerStyles(stage.style)}`}>
+              {stage.icon}
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-2xl text-white/10">{stage.number}</span>
+              {/* Expand/Collapse indicator */}
+              <motion.div
+                animate={{ rotate: isExpanded ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-white/[0.05] border border-white/10"
+              >
+                {isExpanded ? <X size={14} className="text-white/60" /> : <ChevronDown size={14} className="text-white/40" />}
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Basic Content - Always visible */}
+          <div>
+            <h3 className="text-lg md:text-xl font-mono text-white mb-2">
+              {stage.title}
+            </h3>
+            <p className="text-sm text-white/40 mb-3">
+              {stage.subtitle}
+            </p>
+            <p className="text-base text-white/50 leading-relaxed">
+              {stage.description}
+            </p>
+          </div>
+
+          {/* Expanded Content - Details list */}
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
+                <div className="pt-6 mt-6 border-t border-white/10">
+                  <ul className="space-y-3">
+                    {stage.details.map((detail, idx) => (
+                      <motion.li 
+                        key={idx} 
+                        className="flex items-start gap-3 text-base text-white/60"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: idx * 0.05 }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-white/50 mt-2 flex-shrink-0" />
+                        <span>{detail}</span>
+                      </motion.li>
+                    ))}
+                  </ul>
+
+                  {/* Methodology note */}
+                  <div className="mt-4 pt-4 border-t border-white/10">
+                    <p className="text-xs text-white/30 font-mono uppercase tracking-wider">
+                      {language === 'ru' ? 'Методология' : 'Methodology'}
+                    </p>
+                  </div>
                 </div>
-                <span className="font-mono text-2xl text-white/10">{stage.number}</span>
-              </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-              {/* Content - Larger text */}
-              <div className="flex-1">
-                <h3 className="text-lg md:text-xl font-mono text-white mb-2">
-                  {stage.title}
-                </h3>
-                <p className="text-sm text-white/40 mb-3">
-                  {stage.subtitle}
-                </p>
-                <p className="text-base text-white/50 leading-relaxed">
-                  {stage.description}
-                </p>
-              </div>
-
-              {/* Click hint */}
-              <div className="flex items-center gap-2 text-white/20 mt-4">
-                <span className="text-xs font-mono uppercase tracking-wider">
-                  {language === 'ru' ? 'Подробнее' : 'Details'}
-                </span>
-                <div className="w-4 h-px bg-white/20" />
-              </div>
+          {/* Click hint - shown when not expanded */}
+          {!isExpanded && (
+            <div className="flex items-center gap-2 text-white/20 mt-4">
+              <span className="text-xs font-mono uppercase tracking-wider">
+                {language === 'ru' ? 'Подробнее' : 'Details'}
+              </span>
+              <div className="w-4 h-px bg-white/20" />
             </div>
-          </div>
-
-          {/* Back Side */}
-          <div 
-            className={`absolute inset-0 backface-hidden p-6 rotate-y-180
-                       bg-white/[0.05] backdrop-blur-xl
-                       ${stage.style === 'neural' ? 'border border-white/[0.2] rounded-2xl' : ''}
-                       ${stage.style === 'organic' ? 'border border-white/[0.15] rounded-[2rem]' : ''}
-                       ${stage.style === 'geometric' ? 'border border-white/[0.22] rounded-lg' : ''}
-                       ${stage.style === 'fluid' ? 'border border-white/[0.12] rounded-[1.5rem_0.5rem]' : ''}
-                       ${stage.style === 'crystalline' ? 'border border-white/[0.25] rounded-sm' : ''}
-                       ${stage.style === 'minimal' ? 'border border-white/[0.1] rounded-xl' : ''}
-                      `}
-            style={{ transform: 'rotateY(180deg)' }}
-          >
-            <div className="h-full flex flex-col">
-              {/* Back header */}
-              <div className="flex items-center justify-between mb-5">
-                <h3 className="text-lg font-mono text-white">
-                  {stage.title}
-                </h3>
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setFlippedCard(null);
-                  }}
-                  className="p-2 text-white/40 hover:text-white/70 transition-colors"
-                >
-                  <RotateCcw size={16} />
-                </button>
-              </div>
-
-              {/* Details list */}
-              <ul className="space-y-3 flex-1">
-                {stage.details.map((detail, idx) => (
-                  <li key={idx} className="flex items-start gap-3 text-base text-white/60">
-                    <span className="w-1 h-1 rounded-full bg-white/40 mt-2.5 flex-shrink-0" />
-                    <span>{detail}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Methodology note */}
-              <div className="mt-4 pt-4 border-t border-white/10">
-                <p className="text-xs text-white/30 font-mono uppercase tracking-wider">
-                  {language === 'ru' ? 'Методология' : 'Methodology'}
-                </p>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </motion.div>
     );
@@ -352,7 +341,7 @@ export default function ProcessRoadmap() {
           </p>
         </motion.div>
 
-        {/* Snake Grid */}
+        {/* Grid */}
         <div className="space-y-6">
           {/* Row 1 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -361,7 +350,7 @@ export default function ProcessRoadmap() {
             <StageCard stage={stages[2]} index={2} />
           </div>
 
-          {/* Row 2 - reversed */}
+          {/* Row 2 - reversed on desktop */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="md:order-3">
               <StageCard stage={stages[5]} index={3} />

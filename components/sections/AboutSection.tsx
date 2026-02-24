@@ -9,29 +9,31 @@ export default function AboutSection() {
   return (
     <section id="about" className="relative min-h-screen flex items-center overflow-hidden">
       <div className="w-full grid grid-cols-12 min-h-screen">
-        {/* Left Photo Container */}
+        {/* Left Photo Container - Mobile: small strip at top, Desktop: side */}
         <motion.div 
-          className="hidden lg:block lg:col-span-2 relative overflow-hidden"
+          className="col-span-12 lg:col-span-2 relative h-[30vh] lg:h-auto overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           {/* Photo */}
           <div 
-            className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[80vh] bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
+            className="absolute inset-0 lg:left-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-full lg:h-[80vh] bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
             style={{
               backgroundImage: `url('/photo/слева.png')`,
+              backgroundPosition: 'center 20%',
             }}
           />
-          {/* Fade overlays */}
-          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#030303] to-transparent" />
-          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#030303] to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#030303] to-transparent" />
+          {/* Fade overlays - mobile: fade bottom, desktop: fade right */}
+          <div className="absolute inset-x-0 bottom-0 h-16 lg:hidden bg-gradient-to-t from-[#030303] to-transparent" />
+          <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-24 lg:bg-gradient-to-l lg:from-[#030303] lg:to-transparent" />
+          <div className="hidden lg:block lg:absolute lg:inset-x-0 lg:top-0 lg:h-24 lg:bg-gradient-to-b lg:from-[#030303] lg:to-transparent" />
+          <div className="hidden lg:block lg:absolute lg:inset-x-0 lg:bottom-0 lg:h-24 lg:bg-gradient-to-t lg:from-[#030303] lg:to-transparent" />
         </motion.div>
 
         {/* Center Content */}
         <motion.div 
-          className="col-span-12 lg:col-span-8 flex flex-col items-center justify-center px-6 py-20 lg:py-0 relative z-20"
+          className="col-span-12 lg:col-span-8 flex flex-col items-center justify-center px-6 py-12 lg:py-0 relative z-20"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -67,24 +69,26 @@ export default function AboutSection() {
           </p>
         </motion.div>
 
-        {/* Right Photo Container */}
+        {/* Right Photo Container - Mobile: small strip at bottom, Desktop: side */}
         <motion.div 
-          className="hidden lg:block lg:col-span-2 relative overflow-hidden"
+          className="col-span-12 lg:col-span-2 relative h-[30vh] lg:h-auto overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
           {/* Photo */}
           <div 
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-full h-[80vh] bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
+            className="absolute inset-0 lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-full lg:h-[80vh] bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
             style={{
               backgroundImage: `url('/photo/справа.png')`,
+              backgroundPosition: 'center 20%',
             }}
           />
-          {/* Fade overlays */}
-          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#030303] to-transparent" />
-          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#030303] to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#030303] to-transparent" />
+          {/* Fade overlays - mobile: fade top, desktop: fade left */}
+          <div className="absolute inset-x-0 top-0 h-16 lg:hidden bg-gradient-to-b from-[#030303] to-transparent" />
+          <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:left-0 lg:w-24 lg:bg-gradient-to-r lg:from-[#030303] lg:to-transparent" />
+          <div className="hidden lg:block lg:absolute lg:inset-x-0 lg:top-0 lg:h-24 lg:bg-gradient-to-b lg:from-[#030303] lg:to-transparent" />
+          <div className="hidden lg:block lg:absolute lg:inset-x-0 lg:bottom-0 lg:h-24 lg:bg-gradient-to-t lg:from-[#030303] lg:to-transparent" />
         </motion.div>
       </div>
     </section>
