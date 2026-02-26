@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Menu, X, Globe, Mail } from 'lucide-react';
+import { Menu, X, Globe, Mail, FileText } from 'lucide-react';
 import { useI18n } from '@/lib/i18n/context';
 import type { Language } from '@/lib/i18n/translations';
 
@@ -120,6 +120,21 @@ export default function Header({ onContactClick }: HeaderProps) {
               <Mail size={14} />
               <span>{language === 'ru' ? 'Связаться' : 'Contact'}</span>
             </motion.button>
+
+            {/* CV Download - Desktop only */}
+            <motion.a
+              href={language === 'ru' ? '/CV_Timur_Sadykov_RU.pdf' : '/CV_Timur_Sadykov_EN.pdf'}
+              download
+              className="hidden md:flex items-center gap-2 px-4 py-2.5
+                       border border-white/20 
+                       hover:bg-white/10 hover:border-white/30
+                       transition-all duration-200 font-mono text-xs text-white/70 hover:text-white"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <FileText size={14} />
+              <span>CV</span>
+            </motion.a>
           </div>
 
           {/* Logo - Center */}
@@ -148,6 +163,19 @@ export default function Header({ onContactClick }: HeaderProps) {
             >
               <Mail size={16} />
             </motion.button>
+
+            {/* CV Download - Mobile only (icon only) */}
+            <motion.a
+              href={language === 'ru' ? '/CV_Timur_Sadykov_RU.pdf' : '/CV_Timur_Sadykov_EN.pdf'}
+              download
+              className="md:hidden p-2.5 border border-white/10 text-white/50 
+                       hover:text-white hover:border-white/30 hover:bg-white/5
+                       transition-all duration-200"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FileText size={16} />
+            </motion.a>
 
             {/* Language Switcher */}
             <div className="relative" ref={languageMenuRef}>

@@ -21,6 +21,25 @@ export default function ExperienceSection() {
 
   const companies: Company[] = [
     {
+      id: 'culligan',
+      logoName: 'Culligan.png',
+      url: 'https://www.culligan.com',
+      role: 'Marketing Specialist → Assistant Marketing Director',
+      roleEn: 'Marketing Specialist → Assistant Marketing Director',
+      achievements: [
+        'Тендеры и выставки',
+        'Развитие Евразийского направления',
+        'B2B маркетинг',
+        'Рост капитализации на $6 млрд'
+      ],
+      achievementsEn: [
+        'Tenders and exhibitions',
+        'Eurasian direction development',
+        'B2B marketing',
+        '$6B capitalization growth'
+      ]
+    },
+    {
       id: 'done',
       logoName: 'Done.png',
       url: 'https://done.co.il',
@@ -43,8 +62,8 @@ export default function ExperienceSection() {
       id: 'unicap',
       logoName: 'UNICAP.png',
       url: 'https://unicap.invest.org',
-      role: 'Creative Director',
-      roleEn: 'Creative Director',
+      role: 'Creative Director (People-first PPP Fund)',
+      roleEn: 'Creative Director (People-first PPP Fund)',
       achievements: [
         'Маркетинг фонда',
         'Портфель инвестиционных проектов',
@@ -60,17 +79,19 @@ export default function ExperienceSection() {
       id: 'culligan',
       logoName: 'Culligan.png',
       url: 'https://www.culligan.com',
-      role: 'Marketing Specialist',
-      roleEn: 'Marketing Specialist',
+      role: 'Marketing Specialist → Assistant Marketing Director',
+      roleEn: 'Marketing Specialist → Assistant Marketing Director',
       achievements: [
         'Тендеры и выставки',
         'Развитие Евразийского направления',
-        'B2B маркетинг'
+        'B2B маркетинг',
+        'Рост капитализации на $6 млрд'
       ],
       achievementsEn: [
         'Tenders and exhibitions',
         'Eurasian direction development',
-        'B2B marketing'
+        'B2B marketing',
+        '$6B capitalization growth'
       ]
     },
     {

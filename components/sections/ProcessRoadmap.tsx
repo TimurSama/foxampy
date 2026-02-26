@@ -164,6 +164,29 @@ export default function ProcessRoadmap() {
         'Long-term strategy'
       ],
       number: '06'
+    },
+    {
+      id: 'branches',
+      icon: <Lightbulb size={16} />,
+      title: language === 'ru' ? 'Экосистема' : 'Ecosystem',
+      subtitle: language === 'ru' ? 'Продуктовые ответвления' : 'Product Branches',
+      description: language === 'ru'
+        ? 'Создание экосистемы вокруг продукта, запуск смежных направлений и монетизация.'
+        : 'Creating an ecosystem around the product, launching related directions and monetization.',
+      details: language === 'ru' ? [
+        'Продуктовые ответвления',
+        'Экосистемный подход',
+        'Партнёрские интеграции',
+        'Дополнительные revenue streams',
+        'Масштабирование команды'
+      ] : [
+        'Product branches',
+        'Ecosystem approach',
+        'Partner integrations',
+        'Additional revenue streams',
+        'Team scaling'
+      ],
+      number: '07'
     }
   ];
 
@@ -193,8 +216,8 @@ export default function ProcessRoadmap() {
           </p>
         </div>
 
-        {/* Grid - 2 columns on mobile, 3 on desktop */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+        {/* Grid - 2 columns on mobile, 3-4 on desktop */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
           {stages.map((stage) => {
             const isActive = activeCard === stage.id;
             const isAnimating = animatingCard === stage.id;
