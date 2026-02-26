@@ -20,6 +20,7 @@ import AboutSection from '@/components/sections/AboutSection';
 import ExperienceSection from '@/components/sections/ExperienceSection';
 import ProcessRoadmap from '@/components/sections/ProcessRoadmap';
 import { ProjectsGrid } from '@/components/sections/ProjectCards';
+import { PhDResearchBlock } from '@/project-cards/PhDConcept';
 import { useI18n } from '@/lib/i18n/context';
 
 const fashionImages = [
@@ -563,6 +564,9 @@ TRANSPARENCY STANDARDS:
               </p>
             </motion.div>
             <ProjectsGrid />
+            
+            {/* PhD Research */}
+            <PhDResearchBlock />
           </div>
         </section>
       </main>
